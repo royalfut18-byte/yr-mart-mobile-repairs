@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+@theme {
+  /* Ink — the near-black base the whole site sits on */
+  --color-ink-950: #05070d;
+  --color-ink-900: #080b14;
+  --color-ink-800: #0d1220;
+  --color-ink-700: #131a2c;
+  --color-ink-600: #1c2540;
+
+  /* Signal blue — primary accent, pulled from the shop's sign */
+  --color-signal-300: #7db4ff;
+  --color-signal-400: #4f95ff;
+  --color-signal-500: #2e7dff;
+  --color-signal-600: #1c5fd8;
+
+  /* Amber — the yellow half of the sign, used for emphasis */
+  --color-amber-brand: #ffb020;
+  /* Ember — the red half, used sparingly for urgency */
+  --color-ember: #e8362b;
+
+  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
+
+  --radius-4xl: 2rem;
+
+  --animate-marquee: marquee 60s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 60s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-drift: drift 22s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
+  --animate-shimmer: shimmer 2.6s linear infinite;
+  --animate-scan: scan 3.4s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes marquee-reverse {
+  from { transform: translate3d(-50%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(-1.2deg); }
+}
+/* Translate only — scaling a heavily blurred layer forces the browser to
+   re-rasterise it every frame, which is what makes "aurora" backgrounds jank. */
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  33% { transform: translate3d(7%, -9%, 0); }
+  66% { transform: translate3d(-8%, 6%, 0); }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70% { transform: scale(2.1); opacity: 0; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+@keyframes scan {
+  0%, 100% { transform: translateY(-120%); opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  50% { transform: translateY(520%); }
+}
+
+@layer base {
+  * {
+    /* Tailwind v4 no longer assumes a border colour; keep v3's sane default. */
+    border-color: color-mix(in oklab, var(--color-ink-600) 60%, transparent);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-ink-950);
+    color: #e8ecf6;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-signal-500);
+    color: #fff;
+  }
+
+  /* Focus ring that is visible on every surface we use */
+  :focus-visible {
+    outline: 2px solid var(--color-signal-400);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Slim scrollbar, desktop only */
+  @media (pointer: fine) {
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: var(--color-ink-950); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-ink-600);
+      border-radius: 99px;
+      border: 2px solid var(--color-ink-950);
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-signal-600); }
+  }
+}
+
+@layer components {
+  /* Frosted card surface used across sections */
+  .surface {
+    background: linear-gradient(
+      160deg,
+      color-mix(in oklab, var(--color-ink-800) 92%, white 8%),
+      var(--color-ink-900)
+    );
+    border: 1px solid color-mix(in oklab, white 8%, transparent);
+    box-shadow:
+      0 1px 0 0 color-mix(in oklab, white 6%, transparent) inset,
+      0 24px 60px -28px rgb(0 0 0 / 0.9);
+  }
+
+  /* Gradient text used on section eyebrows and key phrases */
+  .text-gradient {
+    background: linear-gradient(
+      100deg,
+      var(--color-signal-300),
+      #b9d4ff 40%,
+      var(--color-amber-brand)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Thin hairline rule that fades at both ends */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, white 14%, transparent),
+      transparent
+    );
+  }
+
+  /* Masks the marquee so cards fade out at the edges instead of clipping */
+  .edge-fade {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .grid-lines {
+    background-image:
+      linear-gradient(color-mix(in oklab, white 4%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklab, white 4%, transparent) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  /* Film grain, keeps the large flat gradients from banding */
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  .pause-on-hover:hover { animation-play-state: paused; }
+
+  /* Big soft background blobs. Painting a 64px blur over a viewport-sized layer
+     is the single most expensive thing on the page, so the blur radius drops and
+     the drift stops entirely on phones. */
+  .blob {
+    filter: blur(56px);
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  @media (max-width: 767px) {
+    .blob {
+      filter: blur(40px);
+      animation: none !important;
+    }
+  }
+
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* Safe-area padding so the mobile call bar clears the iOS home indicator */
+  .pb-safe { padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
+}
+
+/* Honour the OS "reduce motion" setting. Looping decoration stops outright; the
+   JS entrance animations are skipped in Stage, which renders content already
+   visible rather than fading it in. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .animate-marquee,
+  .animate-marquee-reverse,
+  .animate-float,
+  .animate-drift,
+  .animate-pulse-ring,
+  .animate-shimmer,
+  .animate-scan {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.001ms !important;
+  }
+
+  /* The scan sweep sits at the top of the phone when unanimated; hide it. */
+  .animate-scan { opacity: 0; }
+}
