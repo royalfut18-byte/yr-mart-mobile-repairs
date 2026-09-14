@@ -8,17 +8,9 @@
 export type Photo = { src: string; fallback?: string; alt: string };
 
 export const photos = {
-  /**
-   * The shop's own signage artwork. The full banner is 3.8:1, so at nav height
-   * everything right of the red pill collapses into noise; `logoMark` is the
-   * left portion on its own, which stays legible small.
-   */
+  /** The shop's own signage artwork, shown whole wherever the logo appears. */
   logo: {
     src: "/images/logo-banner.webp",
-    alt: "YR MART Mobile Phone Repair",
-  },
-  logoMark: {
-    src: "/images/logo-mark.webp",
     alt: "YR MART Mobile Phone Repair",
   },
   storefront: {

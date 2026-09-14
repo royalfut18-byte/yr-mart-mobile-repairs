@@ -18,12 +18,10 @@ The shop's real photos, exported to WebP at 1200 px max and quality 78 (about
 | `hero-centre.webp`         | Man Guard Gemshell anti-fall cases, boxed       | Hero fan, centre card   |
 | `ipad-device.webp`         | iPad, front and back                            | "iPads & tablets" tile  |
 | `ipad-smart-folio.webp`    | Smart Folio fitted to an iPad                   | Accessories             |
-| `logo-banner.webp`         | The shop's full signage artwork                 | Footer, "look for this sign" |
-| `logo-mark.webp`           | Left portion of the sign (leaf + YR MART pill)  | Nav                     |
+| `logo-banner.webp`         | The shop's full signage artwork                 | Nav, footer, "look for this sign" |
 
-The nav uses the cropped `logo-mark` rather than the full banner: at 3.8:1 the
-banner collapses into noise at nav height, and the left portion stays legible.
-The favicon at `src/app/icon.png` is a square crop of the leaf emblem.
+The logo is always shown whole. The favicon at `src/app/icon.png` is a square
+crop of the leaf emblem, which is the one place the full banner will not fit.
 
 ## Still wanted from the shop
 

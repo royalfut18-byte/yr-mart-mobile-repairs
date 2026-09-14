@@ -63,11 +63,11 @@ export function Nav() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={photos.logoMark.src}
-                alt={photos.logoMark.alt}
-                width={384}
-                height={283}
-                className="h-11 w-auto rounded-lg sm:h-12"
+                src={photos.logo.src}
+                alt={photos.logo.alt}
+                width={1080}
+                height={284}
+                className="h-9 w-auto rounded-md sm:h-12"
               />
             </a>
 
