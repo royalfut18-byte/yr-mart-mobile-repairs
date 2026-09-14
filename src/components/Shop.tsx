@@ -105,7 +105,7 @@ function ProductCard({ product }: { product: Product }) {
       style={{ transformStyle: "preserve-3d", perspective: 900 }}
       className="surface group relative h-full overflow-hidden rounded-3xl"
     >
-      <div className="relative aspect-[4/5] overflow-hidden">
+      <div className="relative aspect-square overflow-hidden">
         <SmartImage
           src={product.image}
           alt={product.name}

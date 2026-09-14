@@ -117,18 +117,18 @@ export function Footer() {
                 Independent phone and tablet repair shop on Military Road, Neutral Bay. Screens,
                 batteries, back glass, charging ports, cases and accessories — seven days a week.
               </p>
-              <address className="mt-5 space-y-1.5 text-sm not-italic text-white/50">
+              <address className="mt-3 text-sm not-italic text-white/50">
                 <a
                   href={business.mapsUrl}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="block transition-colors hover:text-white"
+                  className="-mx-2 block rounded-lg px-2 py-2 transition-colors hover:bg-white/5 hover:text-white"
                 >
                   {business.fullAddress}
                 </a>
                 <a
                   href={business.phoneHref}
-                  className="block font-semibold text-white/75 transition-colors hover:text-white"
+                  className="-mx-2 block rounded-lg px-2 py-2 font-semibold text-white/75 transition-colors hover:bg-white/5 hover:text-white"
                 >
                   {business.phoneDisplay}
                 </a>
@@ -139,12 +139,12 @@ export function Footer() {
               <h3 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/35">
                 Repairs
               </h3>
-              <ul className="mt-4 space-y-2.5">
+              <ul className="mt-2 sm:mt-3">
                 {services.slice(0, 6).map((service) => (
                   <li key={service.slug}>
                     <a
                       href="#repairs"
-                      className="text-sm text-white/50 transition-colors hover:text-white"
+                      className="-mx-2 block rounded-lg px-2 py-2.5 text-sm text-white/50 transition-colors hover:bg-white/5 hover:text-white"
                     >
                       {service.title}
                     </a>
@@ -157,7 +157,7 @@ export function Footer() {
               <h3 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/35">
                 More
               </h3>
-              <ul className="mt-4 space-y-2.5">
+              <ul className="mt-2 sm:mt-3">
                 {[
                   { href: "#how", label: "How it works" },
                   { href: "#shop", label: "Cases & accessories" },
@@ -168,7 +168,7 @@ export function Footer() {
                   <li key={link.href}>
                     <a
                       href={link.href}
-                      className="text-sm text-white/50 transition-colors hover:text-white"
+                      className="-mx-2 block rounded-lg px-2 py-2.5 text-sm text-white/50 transition-colors hover:bg-white/5 hover:text-white"
                     >
                       {link.label}
                     </a>

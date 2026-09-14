@@ -45,7 +45,7 @@ export function Story() {
                   style={still ? undefined : { y: imageY }}
                 >
                   <SmartImage
-                    src="/images/store-interior.jpg"
+                    src="/images/store-interior.webp"
                     alt="Inside YR MART: walls of phone cases, accessories and the repair counter"
                     label="Inside the shop"
                     accent="from-signal-500/30 to-ember/15"

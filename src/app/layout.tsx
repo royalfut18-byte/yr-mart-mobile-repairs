@@ -80,7 +80,7 @@ const jsonLd = {
   url: business.siteUrl,
   telephone: "+61410485059",
   priceRange: "$$",
-  image: `${business.siteUrl}/images/storefront.jpg`,
+  image: `${business.siteUrl}/images/storefront.webp`,
   address: {
     "@type": "PostalAddress",
     streetAddress: business.addressLine,

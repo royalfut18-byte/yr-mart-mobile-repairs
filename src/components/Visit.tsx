@@ -42,13 +42,13 @@ export function Visit() {
           <div className="space-y-4">
             <Reveal>
               <div className="surface group relative overflow-hidden rounded-4xl">
-                <div className="relative aspect-[16/11] sm:aspect-[16/9]">
+                <div className="relative aspect-[4/3] sm:aspect-[16/10]">
                   <SmartImage
-                    src="/images/storefront.jpg"
+                    src="/images/storefront.webp"
                     alt={`The ${business.name} shopfront on Military Road, Neutral Bay`}
                     label="Shopfront"
                     accent="from-signal-500/35 to-amber-brand/15"
-                    className="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
+                    className="h-full w-full object-cover object-[center_28%] transition-transform duration-[1.2s] group-hover:scale-105"
                   />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/25 to-transparent" />
 

@@ -122,7 +122,7 @@ export function Hero() {
                   href={business.mapsUrl}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-white/70 backdrop-blur transition-colors hover:text-white"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-4 py-2.5 text-xs font-medium text-white/70 backdrop-blur transition-colors hover:border-white/25 hover:text-white"
                 >
                   <PinIcon className="h-3.5 w-3.5 text-signal-400" />
                   {business.addressLine}, {business.suburb}
