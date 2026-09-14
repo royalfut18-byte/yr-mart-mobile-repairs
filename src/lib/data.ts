@@ -19,7 +19,13 @@ export const business = {
     "https://www.google.com/maps/search/?api=1&query=YR+MART+MOBILE+REPAIRS+166-174+Military+Rd+Neutral+Bay+NSW+2089",
   mapsEmbedUrl:
     "https://maps.google.com/maps?q=Shop%2020%2F166-174%20Military%20Rd%2C%20Neutral%20Bay%20NSW%202089&z=16&output=embed",
-  siteUrl: "https://yrmartmobilerepairs.com.au",
+  /**
+   * Canonical origin. Feeds the canonical tag, sitemap, Open Graph URL and the
+   * structured data. Change this the moment a custom domain goes live —
+   * pointing it at a domain that does not resolve costs the shop search
+   * ranking rather than helping it.
+   */
+  siteUrl: "https://yr-mart-mobile-repairs.vercel.app",
 } as const;
 
 /** 0 = Sunday ... 6 = Saturday. Times are local Sydney time, 24h. */
