@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { business } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
-import { useStage } from "@/components/Stage";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { StarIcon } from "@/components/ui/Icons";
 
@@ -25,7 +24,6 @@ const promises = [
 
 export function Story() {
   const ref = useRef<HTMLDivElement>(null);
-  const { still } = useStage();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -42,7 +40,7 @@ export function Story() {
               <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[5/4]">
                 <motion.div
                   className="absolute inset-x-0 -inset-y-[10%]"
-                  style={still ? undefined : { y: imageY }}
+                  style={{ y: imageY }}
                 >
                   <SmartImage
                     src="/images/store-interior.webp"

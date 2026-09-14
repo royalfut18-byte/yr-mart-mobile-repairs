@@ -4,14 +4,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { business } from "@/lib/data";
 import { PhoneIcon, PinIcon } from "@/components/ui/Icons";
-import { useStage } from "@/components/Stage";
 
 /**
  * Sticky call/directions bar for phones. Appears once the hero is scrolled past
  * so it never covers the hero's own call button.
  */
 export function CallBar() {
-  const { still } = useStage();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -26,9 +24,9 @@ export function CallBar() {
       {visible && (
         <motion.div
           className="pb-safe fixed inset-x-0 bottom-0 z-40 px-3 pt-3 lg:hidden"
-          initial={still ? false : { y: 120, opacity: 0 }}
-          animate={still ? undefined : { y: 0, opacity: 1 }}
-          exit={still ? undefined : { y: 120, opacity: 0 }}
+          initial={{ y: 120, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 120, opacity: 0 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="flex items-center gap-2 rounded-2xl border border-white/12 bg-ink-900/90 p-2 shadow-[0_-12px_40px_-12px_rgba(0,0,0,0.9)] backdrop-blur-xl">

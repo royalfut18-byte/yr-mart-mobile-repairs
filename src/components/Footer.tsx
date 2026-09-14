@@ -5,13 +5,11 @@ import { business, services } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { OpenPill } from "@/components/OpenPill";
-import { useStage } from "@/components/Stage";
 import { ArrowIcon, PhoneIcon, PinIcon } from "@/components/ui/Icons";
 
 const year = new Date().getFullYear();
 
 export function Footer() {
-  const { still } = useStage();
 
   return (
     <footer className="relative overflow-hidden">
@@ -85,21 +83,16 @@ export function Footer() {
 
       {/* Oversized wordmark that slides in as the page bottoms out */}
       <div className="relative select-none overflow-hidden" aria-hidden="true">
-        {still ? (
-          <p className="whitespace-nowrap text-center font-display text-[clamp(4rem,19vw,16rem)] font-extrabold leading-[0.8] tracking-[-0.05em] text-white/[0.045]">
-            YR MART
-          </p>
-        ) : (
-          <motion.p
-            className="whitespace-nowrap text-center font-display text-[clamp(4rem,19vw,16rem)] font-extrabold leading-[0.8] tracking-[-0.05em] text-white/[0.045]"
-            initial={{ x: "8%", opacity: 0 }}
-            whileInView={{ x: "0%", opacity: 1 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            YR MART
-          </motion.p>
-        )}
+        <motion.p
+          data-enter
+          className="whitespace-nowrap text-center font-display text-[clamp(4rem,19vw,16rem)] font-extrabold leading-[0.8] tracking-[-0.05em] text-white/[0.045]"
+          initial={{ x: "8%", opacity: 0 }}
+          whileInView={{ x: "0%", opacity: 1 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        >
+          YR MART
+        </motion.p>
       </div>
 
       {/* Footer proper */}

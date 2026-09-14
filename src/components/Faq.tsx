@@ -5,10 +5,8 @@ import { useState } from "react";
 import { faqs } from "@/lib/data";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { useStage } from "@/components/Stage";
 
 export function Faq() {
-  const { still } = useStage();
   // Single-open accordion; first question starts expanded.
   const [open, setOpen] = useState<number | null>(0);
 
@@ -37,7 +35,6 @@ export function Faq() {
                   question={faq.q}
                   answer={faq.a}
                   isOpen={open === i}
-                  still={still}
                   onToggle={() => setOpen(open === i ? null : i)}
                 />
               </Reveal>
@@ -53,13 +50,11 @@ function FaqRow({
   question,
   answer,
   isOpen,
-  still,
   onToggle,
 }: {
   question: string;
   answer: string;
   isOpen: boolean;
-  still: boolean;
   onToggle: () => void;
 }) {
   const body = (
@@ -92,32 +87,27 @@ function FaqRow({
             <span className="absolute h-[1.5px] w-3.5 rounded-full bg-current" />
             <motion.span
               className="absolute h-[1.5px] w-3.5 rounded-full bg-current"
-              animate={still ? undefined : { rotate: isOpen ? 0 : 90 }}
-              style={still ? { rotate: isOpen ? 0 : 90 } : undefined}
+              animate={{ rotate: isOpen ? 0 : 90 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             />
           </span>
         </button>
       </h3>
 
-      {still ? (
-        isOpen ? <div>{body}</div> : null
-      ) : (
-        <AnimatePresence initial={false}>
-          {isOpen && (
-            <motion.div
-              key="answer"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-              className="overflow-hidden"
-            >
-              {body}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      )}
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            key="answer"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            {body}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

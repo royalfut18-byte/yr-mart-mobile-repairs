@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { business } from "@/lib/data";
 import { PhoneIcon } from "@/components/ui/Icons";
 import { OpenPill } from "@/components/OpenPill";
-import { useStage } from "@/components/Stage";
+import { useStageReady } from "@/components/Stage";
 
 const links = [
   { href: "#repairs", label: "Repairs" },
@@ -16,7 +16,7 @@ const links = [
 ];
 
 export function Nav() {
-  const { ready, still } = useStage();
+  const ready = useStageReady();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
@@ -48,7 +48,7 @@ export function Nav() {
 
   return (
     <>
-      <Header still={still} ready={ready} scrolled={scrolled}>
+      <Header ready={ready} scrolled={scrolled}>
         <nav
           className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:h-18 sm:px-8"
           aria-label="Primary"
@@ -202,18 +202,12 @@ export function Nav() {
   );
 }
 
-/**
- * The bar itself. With motion off this must be a plain <header>: a motion
- * element would keep the server-rendered `initial` style (opacity 0) because
- * nothing ever animates it away.
- */
+/** The bar itself. Drops in once the intro curtain has lifted. */
 function Header({
-  still,
   ready,
   scrolled,
   children,
 }: {
-  still: boolean;
   ready: boolean;
   scrolled: boolean;
   children: React.ReactNode;
@@ -224,10 +218,9 @@ function Header({
       : "border-b border-transparent bg-transparent"
   }`;
 
-  if (still) return <header className={className}>{children}</header>;
-
   return (
     <motion.header
+      data-enter
       className={className}
       initial={{ y: -80, opacity: 0 }}
       animate={ready ? { y: 0, opacity: 1 } : { y: -80, opacity: 0 }}

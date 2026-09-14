@@ -213,9 +213,18 @@
   .pb-safe { padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
 }
 
-/* Honour the OS "reduce motion" setting. Looping decoration stops outright; the
-   JS entrance animations are skipped in Stage, which renders content already
-   visible rather than fading it in. */
+/* Escape hatch for pages whose animation frames never arrive (a suspended tab,
+   an embedded webview). Stage detects that and sets data-motion="off" on
+   <html>; every entrance then renders at its resting, visible state. Content
+   must never depend on an animation finishing in order to be readable. */
+html[data-motion="off"] [data-enter] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Honour the OS "reduce motion" setting. Looping decoration stops outright;
+   Motion is configured with reducedMotion="user" in Stage, so entrances drop
+   their movement and become plain cross-fades rather than disappearing. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 

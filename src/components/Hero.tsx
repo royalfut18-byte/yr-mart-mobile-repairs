@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { business } from "@/lib/data";
-import { useStage } from "@/components/Stage";
+import { useStageReady } from "@/components/Stage";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { Counter } from "@/components/ui/Counter";
 import { OpenPill } from "@/components/OpenPill";
@@ -16,9 +16,9 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
-  // Content stays hidden until the intro curtain lifts — unless the visitor
-  // prefers reduced motion, in which case `still` renders everything outright.
-  const { ready, still } = useStage();
+  // Content stays hidden until the intro curtain lifts, so the two sequences
+  // read as one continuous move rather than two competing ones.
+  const ready = useStageReady();
   const state = ready ? "show" : "hidden";
 
   const { scrollYProgress } = useScroll({
@@ -28,7 +28,7 @@ export function Hero() {
 
   // Gentle parallax: content drifts up and fades as you scroll past.
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const glowY = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
 
   return (
@@ -37,15 +37,15 @@ export function Hero() {
       id="top"
       className="relative isolate flex min-h-[100svh] flex-col justify-center overflow-hidden pb-20 pt-28 sm:pt-32"
     >
-      <Aurora style={still ? undefined : { y: glowY }} />
+      <Aurora style={{ y: glowY }} />
 
       <motion.div
         className="relative mx-auto w-full max-w-7xl px-5 sm:px-8"
-        style={still ? undefined : { y: contentY, opacity: contentOpacity }}
+        style={{ y: contentY, opacity: contentOpacity }}
       >
         <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
           <div>
-            <Fade state={state} still={still} delay={0} className="inline-block">
+            <Fade state={state} delay={0} className="inline-block">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 py-1.5 pl-1.5 pr-4 backdrop-blur">
                 <span className="flex items-center gap-1 rounded-full bg-amber-brand/15 px-2.5 py-1">
                   {Array.from({ length: 5 }).map((_, i) => (
@@ -62,7 +62,7 @@ export function Hero() {
             <h1 className="mt-6 font-display text-[clamp(2.6rem,8.5vw,5.4rem)] font-extrabold leading-[0.94] tracking-[-0.035em]">
               <span className="block">
                 {HEADLINE.map((word, i) => (
-                  <Word key={word} state={state} still={still} delay={0.1 + i * 0.09}>
+                  <Word key={word} state={state} delay={0.1 + i * 0.09}>
                     {word}
                   </Word>
                 ))}
@@ -72,7 +72,6 @@ export function Hero() {
                   <Word
                     key={`${word}-${i}`}
                     state={state}
-                    still={still}
                     delay={0.28 + i * 0.07}
                     className={i > 1 ? "text-gradient" : "text-white/55"}
                   >
@@ -82,7 +81,7 @@ export function Hero() {
               </span>
             </h1>
 
-            <Fade state={state} still={still} delay={0.55}>
+            <Fade state={state} delay={0.55}>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-white/60 sm:text-lg">
                 {business.owner} has been fixing phones on Military Road for years — screens,
                 batteries, back glass and charging ports, most of them done at the counter in
@@ -90,7 +89,7 @@ export function Hero() {
               </p>
             </Fade>
 
-            <Fade state={state} still={still} delay={0.68}>
+            <Fade state={state} delay={0.68}>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Magnetic>
                   <a
@@ -115,7 +114,7 @@ export function Hero() {
               </div>
             </Fade>
 
-            <Fade state={state} still={still} delay={0.85}>
+            <Fade state={state} delay={0.85}>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <OpenPill compact />
                 <a
@@ -131,27 +130,22 @@ export function Hero() {
             </Fade>
           </div>
 
-          {still ? (
-            <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
-              <PhoneShowcase ready={ready} still={still} />
-            </div>
-          ) : (
-            <motion.div
-              className="relative mx-auto w-full max-w-sm lg:max-w-none"
-              initial={{ opacity: 0, scale: 0.9, rotate: -4 }}
-              animate={state}
-              variants={{
-                hidden: { opacity: 0, scale: 0.9, rotate: -4 },
-                show: { opacity: 1, scale: 1, rotate: 0 },
-              }}
-              transition={{ delay: 0.2, duration: 1, ease }}
-            >
-              <PhoneShowcase ready={ready} still={still} />
-            </motion.div>
-          )}
+          <motion.div
+            data-enter
+            className="relative mx-auto w-full max-w-sm lg:max-w-none"
+            initial={{ opacity: 0, scale: 0.9, rotate: -4 }}
+            animate={state}
+            variants={{
+              hidden: { opacity: 0, scale: 0.9, rotate: -4 },
+              show: { opacity: 1, scale: 1, rotate: 0 },
+            }}
+            transition={{ delay: 0.2, duration: 1, ease }}
+          >
+            <PhoneShowcase ready={ready} />
+          </motion.div>
         </div>
 
-        <Fade state={state} still={still} delay={0.95}>
+        <Fade state={state} delay={0.95}>
           <div className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-white/8 bg-white/8 sm:mt-20 sm:grid-cols-4">
             <Stat value={20} suffix=" min" label="Typical screen repair" />
             <Stat value={business.rating} decimals={1} suffix="★" label="Google rating" />
@@ -161,7 +155,7 @@ export function Hero() {
         </Fade>
       </motion.div>
 
-      <ScrollCue state={state} still={still} />
+      <ScrollCue state={state} />
     </section>
   );
 }
@@ -170,20 +164,17 @@ export function Hero() {
 function Fade({
   children,
   state,
-  still,
   delay,
   className,
 }: {
   children: React.ReactNode;
   state: string;
-  still: boolean;
   delay: number;
   className?: string;
 }) {
-  if (still) return <div className={className}>{children}</div>;
-
   return (
     <motion.div
+      data-enter
       className={className}
       initial={{ opacity: 0, y: 24 }}
       animate={state}
@@ -198,27 +189,19 @@ function Fade({
 function Word({
   children,
   state,
-  still,
   delay,
   className,
 }: {
   children: string;
   state: string;
-  still: boolean;
   delay: number;
   className?: string;
 }) {
-  if (still) {
-    return (
-      <span className={`inline-block pb-[0.08em] pr-[0.22em] align-bottom ${className ?? ""}`}>
-        {children}
-      </span>
-    );
-  }
-
   return (
+    // The clipping span is what makes each word rise out of the line above it.
     <span className="inline-block overflow-hidden pb-[0.08em] pr-[0.22em] align-bottom">
       <motion.span
+        data-enter
         className={`inline-block ${className ?? ""}`}
         initial={{ y: "105%" }}
         animate={state}
@@ -274,7 +257,7 @@ function Aurora({ style }: { style?: React.ComponentProps<typeof motion.div>["st
 }
 
 /** A phone rendered entirely in CSS/SVG — crisp at every size, zero image weight. */
-function PhoneShowcase({ ready, still }: { ready: boolean; still: boolean }) {
+function PhoneShowcase({ ready }: { ready: boolean }) {
   return (
     <div className="relative">
       <div className="blob absolute inset-x-6 top-10 -z-10 h-full rounded-[3rem] bg-[radial-gradient(ellipse_at_center,rgba(46,125,255,0.42),transparent_65%)]" />
@@ -325,9 +308,9 @@ function PhoneShowcase({ ready, still }: { ready: boolean; still: boolean }) {
               </div>
 
               <div className="mt-3 space-y-2">
-                <Meter label="Touch" value="100%" width="100%" tone="bg-emerald-400" delay={0} ready={ready} still={still} />
-                <Meter label="Battery" value="100%" width="100%" tone="bg-signal-400" delay={0.2} ready={ready} still={still} />
-                <Meter label="Cameras" value="OK" width="92%" tone="bg-amber-brand" delay={0.4} ready={ready} still={still} />
+                <Meter label="Touch" value="100%" width="100%" tone="bg-emerald-400" delay={0} ready={ready} />
+                <Meter label="Battery" value="100%" width="100%" tone="bg-signal-400" delay={0.2} ready={ready} />
+                <Meter label="Cameras" value="OK" width="92%" tone="bg-amber-brand" delay={0.4} ready={ready} />
               </div>
             </div>
 
@@ -354,13 +337,13 @@ function PhoneShowcase({ ready, still }: { ready: boolean; still: boolean }) {
       </div>
 
       {/* Floating chips */}
-      <FloatingChip ready={ready} still={still} className="-left-2 top-[18%] sm:left-0" delay={0.55}>
+      <FloatingChip ready={ready} className="-left-2 top-[18%] sm:left-0" delay={0.55}>
         <span className="text-amber-brand">20 min</span> turnaround
       </FloatingChip>
-      <FloatingChip ready={ready} still={still} className="-right-1 top-[52%] sm:right-0" delay={0.75}>
+      <FloatingChip ready={ready} className="-right-1 top-[52%] sm:right-0" delay={0.75}>
         No booking needed
       </FloatingChip>
-      <FloatingChip ready={ready} still={still} className="bottom-[8%] left-2 sm:left-6" delay={0.95}>
+      <FloatingChip ready={ready} className="bottom-[8%] left-2 sm:left-6" delay={0.95}>
         Open <span className="text-signal-300">7 days</span>
       </FloatingChip>
     </div>
@@ -374,7 +357,6 @@ function Meter({
   tone,
   delay,
   ready,
-  still,
 }: {
   label: string;
   value: string;
@@ -382,7 +364,6 @@ function Meter({
   tone: string;
   delay: number;
   ready: boolean;
-  still: boolean;
 }) {
   return (
     <div>
@@ -391,16 +372,12 @@ function Meter({
         <span className="font-semibold text-white/80">{value}</span>
       </div>
       <div className="mt-1 h-1 overflow-hidden rounded-full bg-white/10">
-        {still ? (
-          <div className={`h-full rounded-full ${tone}`} style={{ width }} />
-        ) : (
-          <motion.div
-            className={`h-full rounded-full ${tone}`}
-            initial={{ width: 0 }}
-            animate={{ width: ready ? width : 0 }}
-            transition={{ delay: 0.7 + delay, duration: 1.1, ease }}
-          />
-        )}
+        <motion.div
+          className={`h-full rounded-full ${tone}`}
+          initial={{ width: 0 }}
+          animate={{ width: ready ? width : 0 }}
+          transition={{ delay: 0.7 + delay, duration: 1.1, ease }}
+        />
       </div>
     </div>
   );
@@ -411,21 +388,16 @@ function FloatingChip({
   className,
   delay,
   ready,
-  still,
 }: {
   children: React.ReactNode;
   className?: string;
   delay: number;
   ready: boolean;
-  still: boolean;
 }) {
-  const shell = `absolute z-10 rounded-xl border border-white/12 bg-ink-900/80 px-3 py-2 text-[11px] font-semibold text-white/85 shadow-xl backdrop-blur-md ${className ?? ""}`;
-
-  if (still) return <div className={shell}>{children}</div>;
-
   return (
     <motion.div
-      className={shell}
+      data-enter
+      className={`absolute z-10 rounded-xl border border-white/12 bg-ink-900/80 px-3 py-2 text-[11px] font-semibold text-white/85 shadow-xl backdrop-blur-md ${className ?? ""}`}
       initial={{ opacity: 0, scale: 0.8, y: 10 }}
       animate={ready ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 10 }}
       transition={{ delay, duration: 0.55, ease }}
@@ -435,46 +407,26 @@ function FloatingChip({
   );
 }
 
-function ScrollCue({ state, still }: { state: string; still: boolean }) {
-  const shell =
-    "absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/35 transition-colors hover:text-white/70 md:flex";
-
-  const inner = (
-    <>
-      <span className="text-[10px] font-medium uppercase tracking-[0.3em]">Scroll</span>
-      <span className="relative h-9 w-5 rounded-full border border-current">
-        {still ? (
-          <span className="absolute left-1/2 top-1.5 h-1.5 w-1 -translate-x-1/2 rounded-full bg-current" />
-        ) : (
-          <motion.span
-            className="absolute left-1/2 top-1.5 h-1.5 w-1 -translate-x-1/2 rounded-full bg-current"
-            animate={{ y: [0, 12, 0], opacity: [1, 0.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          />
-        )}
-      </span>
-    </>
-  );
-
-  if (still) {
-    return (
-      <a href="#repairs" aria-label="Scroll to repairs" className={shell}>
-        {inner}
-      </a>
-    );
-  }
-
+function ScrollCue({ state }: { state: string }) {
   return (
     <motion.a
+      data-enter
       href="#repairs"
       aria-label="Scroll to repairs"
-      className={shell}
+      className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/35 transition-colors hover:text-white/70 md:flex"
       initial={{ opacity: 0 }}
       animate={state}
       variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
       transition={{ delay: 1.2, duration: 0.8 }}
     >
-      {inner}
+      <span className="text-[10px] font-medium uppercase tracking-[0.3em]">Scroll</span>
+      <span className="relative h-9 w-5 rounded-full border border-current">
+        <motion.span
+          className="absolute left-1/2 top-1.5 h-1.5 w-1 -translate-x-1/2 rounded-full bg-current"
+          animate={{ y: [0, 12, 0], opacity: [1, 0.2, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </span>
     </motion.a>
   );
 }

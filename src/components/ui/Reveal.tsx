@@ -2,26 +2,24 @@
 
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
-import { useStage } from "@/components/Stage";
 
 type Direction = "up" | "down" | "left" | "right" | "none";
 
 const offset: Record<Direction, { x: number; y: number }> = {
-  up: { x: 0, y: 28 },
-  down: { x: 0, y: -28 },
-  left: { x: 32, y: 0 },
-  right: { x: -32, y: 0 },
+  up: { x: 0, y: 36 },
+  down: { x: 0, y: -36 },
+  left: { x: 40, y: 0 },
+  right: { x: -40, y: 0 },
   none: { x: 0, y: 0 },
 };
 
+const ease = [0.16, 1, 0.3, 1] as const;
+
 /**
- * Scroll-triggered entrance.
- *
- * When the visitor prefers reduced motion this renders a plain element with no
- * motion state at all. That is deliberate: an entrance that starts at opacity 0
- * leaves the page blank if animation frames never arrive (background tab, power
- * saving, embedded webview), so reduced motion means "already visible", not
- * "animate more gently".
+ * Scroll-triggered entrance. Reduced motion is handled once, centrally, by the
+ * <MotionConfig reducedMotion="user"> in Stage — it drops the transform and
+ * keeps the cross-fade. Never branch on the media query here: doing so changes
+ * the rendered markup and breaks hydration.
  */
 export function Reveal({
   children,
@@ -36,18 +34,16 @@ export function Reveal({
   className?: string;
   once?: boolean;
 }) {
-  const { still } = useStage();
-  if (still) return <div className={className}>{children}</div>;
-
   const { x, y } = offset[direction];
 
   return (
     <motion.div
+      data-enter
       className={className}
       initial={{ opacity: 0, x, y }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once, margin: "0px 0px -12% 0px" }}
+      transition={{ duration: 0.75, delay, ease }}
     >
       {children}
     </motion.div>
@@ -64,9 +60,6 @@ export function RevealGroup({
   className?: string;
   stagger?: number;
 }) {
-  const { still } = useStage();
-  if (still) return <div className={className}>{children}</div>;
-
   return (
     <motion.div
       className={className}
@@ -76,7 +69,7 @@ export function RevealGroup({
       }}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
     >
       {children}
     </motion.div>
@@ -90,18 +83,17 @@ export function RevealItem({
   children: ReactNode;
   className?: string;
 }) {
-  const { still } = useStage();
-  if (still) return <div className={className}>{children}</div>;
-
   return (
     <motion.div
+      data-enter
       className={className}
       variants={{
-        hidden: { opacity: 0, y: 24 },
+        hidden: { opacity: 0, y: 30, scale: 0.97 },
         show: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+          scale: 1,
+          transition: { duration: 0.65, ease },
         },
       }}
     >

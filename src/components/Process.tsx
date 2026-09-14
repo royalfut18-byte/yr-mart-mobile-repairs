@@ -4,7 +4,6 @@ import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { useStage } from "@/components/Stage";
 
 const steps = [
   {
@@ -35,7 +34,6 @@ const steps = [
 
 export function Process() {
   const ref = useRef<HTMLDivElement>(null);
-  const { still } = useStage();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 70%", "end 60%"],
@@ -64,14 +62,12 @@ export function Process() {
           <div className="absolute left-[1.45rem] top-2 hidden h-[calc(100%-3rem)] w-px bg-white/10 sm:block">
             <motion.div
               className="h-full w-full origin-top bg-gradient-to-b from-signal-400 via-signal-500 to-amber-brand"
-              style={still ? undefined : { scaleY: lineScale }}
+              style={{ scaleY: lineScale }}
             />
-            {still ? null : (
-              <motion.span
-                className="absolute -left-[5px] h-3 w-3 rounded-full bg-signal-300 shadow-[0_0_22px_6px_rgba(46,125,255,0.55)]"
-                style={{ top: glowY }}
-              />
-            )}
+            <motion.span
+              className="absolute -left-[5px] h-3 w-3 rounded-full bg-signal-300 shadow-[0_0_22px_6px_rgba(46,125,255,0.55)]"
+              style={{ top: glowY }}
+            />
           </div>
 
           <ol className="space-y-4">

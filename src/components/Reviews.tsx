@@ -5,13 +5,11 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { Counter } from "@/components/ui/Counter";
 import { GoogleIcon, StarIcon } from "@/components/ui/Icons";
-import { useStage } from "@/components/Stage";
 
 const rowOne = reviews.slice(0, 8);
 const rowTwo = reviews.slice(8);
 
 export function Reviews() {
-  const { still } = useStage();
 
   return (
     <section id="reviews" className="relative scroll-mt-24 overflow-hidden py-24 sm:py-32">
@@ -57,20 +55,10 @@ export function Reviews() {
         </div>
       </div>
 
-      {/* A scrolling marquee is the wrong answer for anyone who asked for less
-          motion, so they get a plain grid of the same quotes instead. */}
-      {still ? (
-        <div className="mx-auto mt-14 grid max-w-7xl gap-4 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
-          {reviews.slice(0, 6).map((review) => (
-            <ReviewCard key={review.name} review={review} hidden={false} static />
-          ))}
-        </div>
-      ) : (
-        <div className="edge-fade mt-14 space-y-4">
-          <MarqueeRow items={rowOne} />
-          <MarqueeRow items={rowTwo} reverse />
-        </div>
-      )}
+      <div className="edge-fade mt-14 space-y-4">
+        <MarqueeRow items={rowOne} />
+        <MarqueeRow items={rowTwo} reverse />
+      </div>
 
       <div className="mx-auto mt-12 max-w-7xl px-5 text-center sm:px-8">
         <Reveal>
@@ -108,20 +96,10 @@ function MarqueeRow({ items, reverse = false }: { items: Review[]; reverse?: boo
   );
 }
 
-function ReviewCard({
-  review,
-  hidden,
-  static: isStatic = false,
-}: {
-  review: Review;
-  hidden: boolean;
-  static?: boolean;
-}) {
+function ReviewCard({ review, hidden }: { review: Review; hidden: boolean }) {
   return (
     <figure
-      className={`surface flex flex-col rounded-3xl p-6 ${
-        isStatic ? "h-full" : "w-[82vw] shrink-0 sm:w-[24rem]"
-      }`}
+      className="surface flex w-[82vw] shrink-0 flex-col rounded-3xl p-6 sm:w-[24rem]"
       aria-hidden={hidden || undefined}
     >
       <div className="flex items-center justify-between gap-3">
