@@ -222,20 +222,27 @@ html[data-motion="off"] [data-enter] {
   transform: none !important;
 }
 
-/* Honour the OS "reduce motion" setting. Looping decoration stops outright;
-   Motion is configured with reducedMotion="user" in Stage, so entrances drop
-   their movement and become plain cross-fades rather than disappearing. */
+/* Honour the OS "reduce motion" setting. Ambient decoration stops; the review
+   lanes slow down instead of stopping (see below). Motion is configured with
+   reducedMotion="user" in Stage, so entrances drop their movement and become
+   plain cross-fades rather than disappearing. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
-  .animate-marquee,
-  .animate-marquee-reverse,
   .animate-float,
   .animate-drift,
   .animate-pulse-ring,
   .animate-shimmer,
   .animate-scan {
     animation: none !important;
+  }
+
+  /* The review lanes are a deliberate exception: the shop asked for them to
+     keep scrolling, so they run everywhere rather than freezing. They are
+     slowed well down here, and hovering still pauses them. */
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation-duration: 160s !important;
   }
 
   *,

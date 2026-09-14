@@ -6,8 +6,13 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Counter } from "@/components/ui/Counter";
 import { GoogleIcon, StarIcon } from "@/components/ui/Icons";
 
-const rowOne = reviews.slice(0, 8);
-const rowTwo = reviews.slice(8);
+// Three lanes running in alternating directions. Speeds are deliberately
+// uneven so the rows never line up and march in lockstep.
+const lanes = [
+  { items: reviews.slice(0, 6), direction: "right" as const, seconds: 58 },
+  { items: reviews.slice(6, 11), direction: "left" as const, seconds: 74 },
+  { items: reviews.slice(11), direction: "right" as const, seconds: 66 },
+];
 
 export function Reviews() {
 
@@ -56,8 +61,14 @@ export function Reviews() {
       </div>
 
       <div className="edge-fade mt-14 space-y-4">
-        <MarqueeRow items={rowOne} />
-        <MarqueeRow items={rowTwo} reverse />
+        {lanes.map((lane, i) => (
+          <MarqueeRow
+            key={i}
+            items={lane.items}
+            direction={lane.direction}
+            seconds={lane.seconds}
+          />
+        ))}
       </div>
 
       <div className="mx-auto mt-12 max-w-7xl px-5 text-center sm:px-8">
@@ -77,31 +88,53 @@ export function Reviews() {
   );
 }
 
-function MarqueeRow({ items, reverse = false }: { items: Review[]; reverse?: boolean }) {
-  // The list is rendered twice so the CSS translate can loop seamlessly.
-  const track = [...items, ...items];
-
+/**
+ * One continuously scrolling lane.
+ *
+ * The set is rendered twice and the track slides by exactly -50%, which lands
+ * on the start of the copy and makes the loop seamless. That only works because
+ * each copy is its own flex box: with a single flat list the inter-card gaps
+ * are shared between the halves, so -50% misses the seam and the row visibly
+ * jumps once per cycle.
+ */
+function MarqueeRow({
+  items,
+  direction,
+  seconds,
+}: {
+  items: Review[];
+  direction: "left" | "right";
+  seconds: number;
+}) {
   return (
-    <div className="group flex overflow-hidden">
+    <div className="flex overflow-hidden">
       <div
-        className={`flex shrink-0 gap-4 pr-4 pause-on-hover ${
-          reverse ? "animate-marquee-reverse" : "animate-marquee"
+        className={`flex w-max pause-on-hover ${
+          direction === "right" ? "animate-marquee-reverse" : "animate-marquee"
         }`}
+        style={{ animationDuration: `${seconds}s` }}
       >
-        {track.map((review, i) => (
-          <ReviewCard key={`${review.name}-${i}`} review={review} hidden={i >= items.length} />
-        ))}
+        <ReviewSet items={items} />
+        {/* Exact duplicate purely to fill the wrap-around; hidden from readers. */}
+        <ReviewSet items={items} duplicate />
       </div>
     </div>
   );
 }
 
-function ReviewCard({ review, hidden }: { review: Review; hidden: boolean }) {
+function ReviewSet({ items, duplicate = false }: { items: Review[]; duplicate?: boolean }) {
   return (
-    <figure
-      className="surface flex w-[82vw] shrink-0 flex-col rounded-3xl p-6 sm:w-[24rem]"
-      aria-hidden={hidden || undefined}
-    >
+    <div className="flex shrink-0 gap-4 pr-4" aria-hidden={duplicate || undefined}>
+      {items.map((review, i) => (
+        <ReviewCard key={`${review.name}-${i}`} review={review} />
+      ))}
+    </div>
+  );
+}
+
+function ReviewCard({ review }: { review: Review }) {
+  return (
+    <figure className="surface flex w-[82vw] shrink-0 flex-col rounded-3xl p-6 sm:w-[24rem]">
       <div className="flex items-center justify-between gap-3">
         <div className="flex gap-0.5">
           {Array.from({ length: review.rating }).map((_, i) => (
