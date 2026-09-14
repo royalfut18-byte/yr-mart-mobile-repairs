@@ -18,6 +18,20 @@ The shop's real photos, exported to WebP at 1200 px max and quality 78 (about
 | `hero-centre.webp`         | Man Guard Gemshell anti-fall cases, boxed       | Hero fan, centre card   |
 | `ipad-device.webp`         | iPad, front and back                            | "iPads & tablets" tile  |
 | `ipad-smart-folio.webp`    | Smart Folio fitted to an iPad                   | Accessories             |
+| `logo-banner.webp`         | The shop's full signage artwork                 | Footer, "look for this sign" |
+| `logo-mark.webp`           | Left portion of the sign (leaf + YR MART pill)  | Nav                     |
+
+The nav uses the cropped `logo-mark` rather than the full banner: at 3.8:1 the
+banner collapses into noise at nav height, and the left portion stays legible.
+The favicon at `src/app/icon.png` is a square crop of the leaf emblem.
+
+## Still wanted from the shop
+
+- A photo of **cracked phones and an iPad** for the front page, which Yusuf
+  asked for. Stock imagery would undercut the rest of the site, all of which is
+  his own product and shopfront photography.
+- Photos of the **computer accessories**: Mac chargers, mice, keyboards, USB
+  hubs. Those shelves are listed with icons for now.
 
 ## Replacing or adding a photo
 

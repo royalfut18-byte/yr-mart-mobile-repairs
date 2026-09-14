@@ -161,6 +161,62 @@ export function SparkIcon(p: Props) {
   );
 }
 
+export function LaptopIcon(p: Props) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="4" y="5" width="16" height="11" rx="1.8" />
+      <path d="M2 19.5h20" />
+    </svg>
+  );
+}
+
+export function MouseIcon(p: Props) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="7" y="2.5" width="10" height="19" rx="5" />
+      <path d="M12 6.5v3.5" />
+    </svg>
+  );
+}
+
+export function KeyboardIcon(p: Props) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="2" y="6" width="20" height="12" rx="2.2" />
+      <path d="M6 9.8h.01M9.5 9.8h.01M13 9.8h.01M16.5 9.8h.01M8 14h8" />
+    </svg>
+  );
+}
+
+export function UsbIcon(p: Props) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="3" y="9" width="18" height="7.5" rx="2.2" />
+      <path d="M7 9V6.2A1.7 1.7 0 0 1 8.7 4.5h6.6A1.7 1.7 0 0 1 17 6.2V9" />
+      <path d="M7.5 12.6h3M13.5 12.6h3" />
+    </svg>
+  );
+}
+
+export function HeadphonesIcon(p: Props) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M4 14v-1.6a8 8 0 0 1 16 0V14" />
+      <rect x="2.5" y="13.5" width="4.5" height="7" rx="2" />
+      <rect x="17" y="13.5" width="4.5" height="7" rx="2" />
+    </svg>
+  );
+}
+
+export function CableIcon(p: Props) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M6.5 3.5v4.2a3 3 0 0 0 3 3h5a3 3 0 0 1 3 3v3.3" />
+      <path d="M4.5 3.5h4M15.5 20.5h4" />
+    </svg>
+  );
+}
+
 export function ArrowIcon(p: Props) {
   return (
     <svg {...base} {...p}>

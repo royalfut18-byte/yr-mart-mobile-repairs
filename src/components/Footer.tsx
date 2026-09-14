@@ -3,6 +3,7 @@
 import { business, services } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 import { PhoneIcon, PinIcon } from "@/components/ui/Icons";
+import { photos } from "@/lib/images";
 
 const year = new Date().getFullYear();
 
@@ -105,10 +106,14 @@ export function Footer() {
 
           <div className="mt-14 flex flex-col gap-6 border-t border-white/12 pt-8 sm:flex-row sm:items-center sm:justify-between">
             <a href="#top" className="-my-2 flex items-center gap-2 py-2" aria-label={`${business.name} home`}>
-              <span className="font-display text-xl font-extrabold tracking-[-0.04em] text-white">
-                YR MART
-              </span>
-              <span className="h-2 w-2 rounded-full bg-brand" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={photos.logo.src}
+                alt={photos.logo.alt}
+                width={1080}
+                height={284}
+                className="h-11 w-auto rounded-md"
+              />
             </a>
 
             <address className="text-xs not-italic text-white/45 sm:text-right">

@@ -6,6 +6,7 @@ import { formatHour, getOpenState } from "@/lib/hours";
 import { Reveal } from "@/components/ui/Reveal";
 import { Pill } from "@/components/ui/Pill";
 import { ClockIcon, PhoneIcon, PinIcon } from "@/components/ui/Icons";
+import { photos } from "@/lib/images";
 
 export function Visit() {
   // Highlight the current Sydney day once we're on the client.
@@ -35,6 +36,22 @@ export function Visit() {
         <div className="mt-10 grid gap-4 lg:grid-cols-[1.3fr_1fr]">
           <Reveal direction="right">
             <div className="card overflow-hidden">
+              {/* The sign is the landmark people actually navigate by on a busy
+                  shopping strip, so it sits above the map rather than in it. */}
+              <div className="border-b border-ink/8 p-4 sm:p-5">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-ink-faint">
+                  Look for this sign
+                </p>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photos.logo.src}
+                  alt={photos.logo.alt}
+                  width={1080}
+                  height={284}
+                  loading="lazy"
+                  className="w-full rounded-xl"
+                />
+              </div>
               <iframe
                 title={`Map showing ${business.name} in Neutral Bay`}
                 src={business.mapsEmbedUrl}

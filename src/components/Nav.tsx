@@ -6,6 +6,7 @@ import { business } from "@/lib/data";
 import { PhoneIcon, PinIcon } from "@/components/ui/Icons";
 import { OpenPill } from "@/components/OpenPill";
 import { useStageReady } from "@/components/Stage";
+import { photos } from "@/lib/images";
 
 const links = [
   { href: "#repairs", label: "Repairs" },
@@ -60,10 +61,14 @@ export function Nav() {
               className="-my-2 flex shrink-0 items-center gap-2 py-2"
               aria-label={`${business.name} home`}
             >
-              <span className="font-display text-xl font-extrabold tracking-[-0.04em] text-ink sm:text-[1.4rem]">
-                YR MART
-              </span>
-              <span className="h-2 w-2 rounded-full bg-brand sm:h-2.5 sm:w-2.5" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={photos.logoMark.src}
+                alt={photos.logoMark.alt}
+                width={384}
+                height={283}
+                className="h-11 w-auto rounded-lg sm:h-12"
+              />
             </a>
 
             {/* Centred links, as in the reference */}

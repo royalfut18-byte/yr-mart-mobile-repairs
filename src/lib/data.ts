@@ -373,6 +373,6 @@ export const faqs = [
   },
   {
     q: "Do you sell cases and accessories too?",
-    a: "The whole shop is lined with them: MagSafe cases, wallet folios, iPad covers, tempered glass, chargers, cables, power banks, headphones, car holders, ring lights and Telstra prepaid SIMs.",
+    a: "The whole shop is lined with them. Phone and tablet side: MagSafe cases, wallet folios, iPad covers, tempered glass, chargers, cables, power banks and Telstra prepaid SIMs. Computer side: Mac and laptop chargers, USB hubs and adapters, mice, keyboards, headphones, car holders and ring lights.",
   },
 ];
