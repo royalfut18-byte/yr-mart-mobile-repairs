@@ -19,11 +19,11 @@ export function OpenPill({ compact = false }: { compact?: boolean }) {
   }, []);
 
   const isOpen = state?.isOpen ?? false;
-  const dot = isOpen ? "bg-emerald-400" : "bg-amber-brand";
+  const dot = isOpen ? "bg-emerald-500" : "bg-amber-brand";
 
   return (
     <div
-      className={`inline-flex items-center gap-2.5 rounded-full border border-white/12 bg-white/5 backdrop-blur ${
+      className={`inline-flex items-center gap-2.5 rounded-full bg-white shadow-[0_1px_2px_rgba(22,23,31,0.06)] ${
         compact ? "px-3 py-1.5" : "w-full justify-center px-4 py-3"
       }`}
       suppressHydrationWarning
@@ -32,10 +32,10 @@ export function OpenPill({ compact = false }: { compact?: boolean }) {
         <span className={`absolute inline-flex h-full w-full rounded-full ${dot} animate-pulse-ring`} />
         <span className={`relative inline-flex h-2 w-2 rounded-full ${dot}`} />
       </span>
-      <span className={`font-semibold ${compact ? "text-xs" : "text-sm"} text-white`}>
+      <span className={`font-semibold ${compact ? "text-xs" : "text-sm"} text-ink`}>
         {state ? state.label : "Opening hours"}
       </span>
-      <span className={`${compact ? "text-xs" : "text-sm"} text-white/50`}>
+      <span className={`${compact ? "text-xs" : "text-sm"} text-ink-muted`}>
         {state ? state.detail : "10am daily"}
       </span>
     </div>

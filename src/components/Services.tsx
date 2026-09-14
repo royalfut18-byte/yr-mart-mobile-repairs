@@ -1,32 +1,90 @@
 "use client";
 
-import { motion, useMotionTemplate, useMotionValue } from "motion/react";
 import { business, services, type Service } from "@/lib/data";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { RevealGroup, RevealItem, Reveal } from "@/components/ui/Reveal";
-import { serviceIcons, ArrowIcon, PhoneIcon } from "@/components/ui/Icons";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { Pill } from "@/components/ui/Pill";
+import { SmartImage } from "@/components/ui/SmartImage";
+import { serviceIcons, PhoneIcon } from "@/components/ui/Icons";
+
+/** The two hero tiles at the top of the section, as in the reference. */
+const features = [
+  {
+    src: "/images/store-interior.webp",
+    alt: "Inside YR MART: walls of cases and the repair counter",
+    label: "Walk-in repairs",
+    meta: "10 services",
+  },
+  {
+    src: "/images/ipad-bundle.webp",
+    alt: "iPad folio, tempered glass and stylus bundle",
+    label: "iPads & tablets",
+    meta: "1–2 days",
+  },
+];
 
 export function Services() {
   return (
-    <section id="repairs" className="relative scroll-mt-24 py-24 sm:py-32">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+    <section id="repairs" className="scroll-mt-24 py-16 sm:py-20">
+      <div className="mx-auto max-w-[86rem] px-5 sm:px-8">
+        {/* Intro card + feature tiles */}
+        <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+          <Reveal>
+            <div className="card flex h-full flex-col justify-between gap-8 p-8 sm:p-10">
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+                  What we fix
+                </span>
+                <h2 className="mt-4 font-display text-[clamp(1.9rem,4.2vw,3rem)] font-bold leading-[1.06]">
+                  Bring it in broken.
+                  <br />
+                  Leave with it working.
+                </h2>
+                <p className="mt-4 max-w-md text-[0.95rem] leading-relaxed text-ink-muted">
+                  Ten things the shop does day in, day out — most finished at the counter while
+                  you wait, and all of them quoted before anything is opened up.
+                </p>
+              </div>
+              <Pill
+                href={business.phoneHref}
+                tone="brand"
+                className="self-start"
+                icon={<PhoneIcon className="h-[1.1rem] w-[1.1rem]" />}
+              >
+                Ask {business.owner}
+              </Pill>
+            </div>
+          </Reveal>
 
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionHeading
-          eyebrow="What we fix"
-          title={
-            <>
-              Bring it in broken.
-              <br />
-              <span className="text-gradient">Leave with it working.</span>
-            </>
-          }
-          lead="Ten things the shop does day in, day out — most of them finished at the counter while you wait, and all of them quoted before anything is opened up."
-        />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {features.map((f, i) => (
+              <Reveal key={f.src} delay={0.06 + i * 0.06}>
+                <figure className="card group h-full overflow-hidden">
+                  <div className="aspect-[4/3] overflow-hidden sm:aspect-[5/6]">
+                    <SmartImage
+                      src={f.src}
+                      alt={f.alt}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  <figcaption className="flex items-center justify-between gap-3 px-5 py-4">
+                    <span className="font-display text-base font-bold">{f.label}</span>
+                    <span className="flex items-center gap-1.5 text-xs font-medium text-ink-muted">
+                      <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+                      {f.meta}
+                    </span>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </div>
 
+        {/* Service cards */}
         <RevealGroup
-          className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          stagger={0.06}
+          // 2 or 5 across only — a 3- or 4-column grid leaves the tenth card
+          // stranded on a row of its own.
+          className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5"
+          stagger={0.05}
         >
           {services.map((service) => (
             <RevealItem key={service.slug}>
@@ -34,29 +92,6 @@ export function Services() {
             </RevealItem>
           ))}
         </RevealGroup>
-
-        <Reveal delay={0.1}>
-          <div className="surface mt-6 flex flex-col items-start gap-6 overflow-hidden rounded-4xl p-8 sm:flex-row sm:items-center sm:justify-between sm:p-10">
-            <div className="relative max-w-lg">
-              <h3 className="font-display text-2xl font-bold sm:text-3xl">
-                Not sure what&apos;s wrong with it?
-              </h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-white/55 sm:text-base">
-                Describe the problem over the phone or just bring the device in. You get an
-                honest look and a price first — if it isn&apos;t worth fixing, you&apos;ll be
-                told that too.
-              </p>
-            </div>
-            <a
-              href={business.phoneHref}
-              className="group inline-flex shrink-0 items-center gap-2.5 rounded-2xl bg-white px-6 py-4 font-display text-base font-bold text-ink-950 transition-transform duration-300 hover:scale-[1.04] active:scale-95"
-            >
-              <PhoneIcon className="h-5 w-5" />
-              Ask {business.owner}
-              <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
@@ -65,54 +100,21 @@ export function Services() {
 function ServiceCard({ service }: { service: Service }) {
   const Icon = serviceIcons[service.icon];
 
-  // Spotlight that tracks the cursor across the card.
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const spotlight = useMotionTemplate`radial-gradient(320px circle at ${mouseX}px ${mouseY}px, rgba(46,125,255,0.16), transparent 72%)`;
-
-  function handleMove(event: React.PointerEvent<HTMLElement>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    mouseX.set(event.clientX - rect.left);
-    mouseY.set(event.clientY - rect.top);
-  }
-
   return (
-    <motion.article
-      onPointerMove={handleMove}
-      whileHover={{ y: -4 }}
-      transition={{ type: "spring", stiffness: 320, damping: 26 }}
-      className="surface group relative h-full overflow-hidden rounded-3xl p-6"
-    >
-      <motion.div
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{ background: spotlight }}
-      />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-signal-400/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+    <article className="card group flex h-full flex-col p-6 transition-transform duration-500 hover:-translate-y-1">
+      <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-soft text-brand transition-colors duration-500 group-hover:bg-brand group-hover:text-white">
+        <Icon className="h-6 w-6" />
+      </span>
 
-      <div className="relative flex items-start justify-between gap-4">
-        <span className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-gradient-to-br from-signal-500/20 to-transparent text-signal-300 transition-all duration-500 group-hover:border-signal-400/40 group-hover:text-signal-200">
-          <Icon className="h-6 w-6" />
-        </span>
-        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold text-white/60">
-          {service.turnaround}
-        </span>
-      </div>
-
-      <h3 className="relative mt-5 font-display text-xl font-bold tracking-tight">
+      <h3 className="mt-5 font-display text-lg font-bold leading-snug tracking-tight">
         {service.title}
       </h3>
-      <p className="relative mt-2.5 text-sm leading-relaxed text-white/55">{service.blurb}</p>
+      <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">{service.blurb}</p>
 
-      <ul className="relative mt-5 flex flex-wrap gap-1.5">
-        {service.highlights.map((item) => (
-          <li
-            key={item}
-            className="rounded-full bg-white/6 px-2.5 py-1 text-[11px] font-medium text-white/55"
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-    </motion.article>
+      <div className="mt-5 flex items-center justify-between border-t border-ink/8 pt-4">
+        <span className="text-xs font-medium text-ink-faint">Turnaround</span>
+        <span className="font-display text-sm font-bold text-brand">{service.turnaround}</span>
+      </div>
+    </article>
   );
 }

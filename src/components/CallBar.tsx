@@ -29,10 +29,10 @@ export function CallBar() {
           exit={{ y: 120, opacity: 0 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="flex items-center gap-2 rounded-2xl border border-white/12 bg-ink-900/90 p-2 shadow-[0_-12px_40px_-12px_rgba(0,0,0,0.9)] backdrop-blur-xl">
+          <div className="flex items-center gap-2 rounded-full bg-white p-2 shadow-[0_-6px_30px_-8px_rgba(22,23,31,0.28)]">
             <a
               href={business.phoneHref}
-              className="flex flex-1 items-center justify-center gap-2.5 rounded-xl bg-white py-3.5 font-display text-base font-bold text-ink-950 active:scale-[0.97]"
+              className="flex flex-1 items-center justify-center gap-2.5 rounded-full bg-brand py-3.5 font-display text-base font-bold text-white active:scale-[0.97]"
             >
               <PhoneIcon className="h-5 w-5" />
               Call {business.owner}
@@ -42,7 +42,7 @@ export function CallBar() {
               target="_blank"
               rel="noreferrer noopener"
               aria-label="Get directions"
-              className="grid h-[3.25rem] w-[3.25rem] shrink-0 place-items-center rounded-xl border border-white/12 bg-white/6 text-white/80 active:scale-95"
+              className="grid h-[3.25rem] w-[3.25rem] shrink-0 place-items-center rounded-full border border-ink/12 text-ink active:scale-95"
             >
               <PinIcon className="h-5 w-5" />
             </a>

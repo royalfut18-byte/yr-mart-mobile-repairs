@@ -11,7 +11,7 @@ export function SmartImage({
   src,
   alt,
   className,
-  accent = "from-signal-500/40 to-ink-900",
+  accent = "from-brand-soft to-paper-deep",
   label,
   priority = false,
 }: {
@@ -31,11 +31,9 @@ export function SmartImage({
         aria-label={alt}
         className={`relative grid place-items-center overflow-hidden bg-gradient-to-br ${accent} ${className ?? ""}`}
       >
-        <div className="absolute inset-0 grid-lines opacity-40" />
-        <div className="absolute -inset-8 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.18),transparent_60%)]" />
-        <PhoneGlyph className="relative h-1/3 w-auto text-white/35" />
+        <PhoneGlyph className="relative h-1/3 w-auto text-ink/25" />
         {label ? (
-          <span className="absolute bottom-3 left-0 right-0 px-3 text-center text-[10px] font-medium uppercase tracking-[0.18em] text-white/45">
+          <span className="absolute bottom-3 left-0 right-0 px-3 text-center text-[10px] font-medium uppercase tracking-[0.18em] text-ink-faint">
             {label}
           </span>
         ) : null}

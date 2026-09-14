@@ -1,9 +1,6 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
-import { useRef } from "react";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 
 const steps = [
   {
@@ -33,74 +30,42 @@ const steps = [
 ];
 
 export function Process() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 70%", "end 60%"],
-  });
-  const lineScale = useSpring(scrollYProgress, { stiffness: 90, damping: 26 });
-  const glowY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
   return (
-    <section id="how" className="relative scroll-mt-24 overflow-hidden py-24 sm:py-32">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[50rem] w-[50rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(46,125,255,0.12),transparent_60%)]" />
-
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionHeading
-          eyebrow="How it works"
-          title={
-            <>
-              Four steps, <span className="text-gradient">no runaround</span>
-            </>
-          }
-          lead="The whole point of a local shop is that you don't post your phone away and hope. Here's exactly what happens when you walk through the door."
-          align="center"
-        />
-
-        <div ref={ref} className="relative mx-auto mt-16 max-w-3xl">
-          {/* Spine */}
-          <div className="absolute left-[1.45rem] top-2 hidden h-[calc(100%-3rem)] w-px bg-white/10 sm:block">
-            <motion.div
-              className="h-full w-full origin-top bg-gradient-to-b from-signal-400 via-signal-500 to-amber-brand"
-              style={{ scaleY: lineScale }}
-            />
-            <motion.span
-              className="absolute -left-[5px] h-3 w-3 rounded-full bg-signal-300 shadow-[0_0_22px_6px_rgba(46,125,255,0.55)]"
-              style={{ top: glowY }}
-            />
+    <section id="how" className="scroll-mt-24 py-16 sm:py-20">
+      <div className="mx-auto max-w-[86rem] px-5 sm:px-8">
+        <Reveal>
+          <div className="text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+              How it works
+            </span>
+            <h2 className="mx-auto mt-3 max-w-2xl font-display text-[clamp(1.9rem,4.2vw,3rem)] font-bold leading-[1.06]">
+              Four steps, no runaround
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-[0.95rem] leading-relaxed text-ink-muted">
+              The whole point of a local shop is that you don&apos;t post your phone away and
+              hope. Here is exactly what happens when you walk through the door.
+            </p>
           </div>
+        </Reveal>
 
-          <ol className="space-y-4">
-            {steps.map((step, i) => (
-              <li key={step.n}>
-                <Reveal delay={i * 0.08} direction="left">
-                  <div className="group relative flex gap-5 sm:gap-7">
-                    <span className="relative z-10 hidden h-12 w-12 shrink-0 place-items-center rounded-full border border-white/12 bg-ink-900 font-display text-sm font-bold text-white/70 transition-colors duration-500 group-hover:border-signal-400/50 group-hover:text-signal-300 sm:grid">
-                      {step.n}
-                    </span>
-
-                    <div className="surface flex-1 rounded-3xl p-6 transition-transform duration-500 group-hover:translate-x-1 sm:p-7">
-                      <div className="flex flex-wrap items-center gap-3">
-                        <span className="font-display text-sm font-bold text-signal-300 sm:hidden">
-                          {step.n}
-                        </span>
-                        <h3 className="font-display text-xl font-bold tracking-tight sm:text-2xl">
-                          {step.title}
-                        </h3>
-                        <span className="rounded-full bg-white/6 px-2.5 py-1 text-[11px] font-medium text-white/50">
-                          {step.time}
-                        </span>
-                      </div>
-                      <p className="mt-3 text-sm leading-relaxed text-white/55 sm:text-base">
-                        {step.body}
-                      </p>
-                    </div>
-                  </div>
-                </Reveal>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <RevealGroup className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" stagger={0.07}>
+          {steps.map((step) => (
+            <RevealItem key={step.n}>
+              <article className="card group flex h-full flex-col p-7 transition-transform duration-500 hover:-translate-y-1">
+                <span className="font-display text-[2.75rem] font-extrabold leading-none tracking-tight text-paper-deep transition-colors duration-500 group-hover:text-brand">
+                  {step.n}
+                </span>
+                <h3 className="mt-5 font-display text-lg font-bold tracking-tight">
+                  {step.title}
+                </h3>
+                <span className="mt-2 inline-flex w-fit rounded-full bg-brand-soft px-2.5 py-1 text-[11px] font-semibold text-brand">
+                  {step.time}
+                </span>
+                <p className="mt-4 flex-1 text-sm leading-relaxed text-ink-muted">{step.body}</p>
+              </article>
+            </RevealItem>
+          ))}
+        </RevealGroup>
       </div>
     </section>
   );

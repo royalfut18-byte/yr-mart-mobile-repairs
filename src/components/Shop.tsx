@@ -1,52 +1,39 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import { useRef, useState } from "react";
 import { products, business, type Product } from "@/lib/data";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SmartImage } from "@/components/ui/SmartImage";
-import { ArrowIcon, BoltIcon, ShieldIcon, SparkIcon, WalletIcon } from "@/components/ui/Icons";
+import { Pill } from "@/components/ui/Pill";
+import { BoltIcon, ShieldIcon, SparkIcon, StarIcon, WalletIcon } from "@/components/ui/Icons";
 
 const extras = [
   { icon: BoltIcon, label: "Chargers, cables & power banks" },
-  { icon: ShieldIcon, label: "Tempered glass, fitted free" },
+  { icon: ShieldIcon, label: "Tempered glass, fitted in store" },
   { icon: WalletIcon, label: "Telstra prepaid SIMs & recharge" },
   { icon: SparkIcon, label: "Headphones, holders & ring lights" },
 ];
 
 export function Shop() {
   return (
-    <section id="shop" className="relative scroll-mt-24 py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading
-            eyebrow="In the shop"
-            title={
-              <>
-                Walls of cases,
-                <br />
-                <span className="text-gradient">glass and gear</span>
-              </>
-            }
-            lead="Every phone that leaves gets offered the thing that stops it coming back. Hundreds of cases in stock, and screen protectors fitted at the counter."
-          />
-
-          <Reveal delay={0.1}>
-            <a
-              href={business.mapsUrl}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="group inline-flex items-center gap-2 self-start rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white/80 transition-colors hover:border-white/30 hover:text-white"
-            >
+    <section id="shop" className="scroll-mt-24 py-16 sm:py-20">
+      <div className="mx-auto max-w-[86rem] px-5 sm:px-8">
+        <Reveal>
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+                In the shop
+              </span>
+              <h2 className="mt-3 max-w-xl font-display text-[clamp(1.9rem,4.2vw,3rem)] font-bold leading-[1.06]">
+                Walls of cases, glass and gear
+              </h2>
+            </div>
+            <Pill href={business.mapsUrl} tone="light" external className="self-start">
               See it in person
-              <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
-          </Reveal>
-        </div>
+            </Pill>
+          </div>
+        </Reveal>
 
-        {/* Mobile: snap carousel. Desktop: grid. */}
-        <RevealGroup className="mt-14 hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4" stagger={0.06}>
+        <RevealGroup className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" stagger={0.05}>
           {products.map((product) => (
             <RevealItem key={product.name}>
               <ProductCard product={product} />
@@ -54,25 +41,14 @@ export function Shop() {
           ))}
         </RevealGroup>
 
-        <div className="no-scrollbar -mx-5 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:hidden">
-          {products.map((product) => (
-            <div key={product.name} className="w-[72vw] shrink-0 snap-center">
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
-
-        <Reveal delay={0.1}>
-          <ul className="mt-6 grid gap-px overflow-hidden rounded-3xl border border-white/8 bg-white/8 sm:grid-cols-2 lg:grid-cols-4">
+        <Reveal delay={0.08}>
+          <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {extras.map(({ icon: Icon, label }) => (
-              <li
-                key={label}
-                className="group flex items-center gap-3.5 bg-ink-900 px-5 py-5 transition-colors duration-500 hover:bg-ink-800"
-              >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/6 text-amber-brand transition-transform duration-500 group-hover:scale-110">
+              <li key={label} className="card flex items-center gap-4 px-6 py-5">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand">
                   <Icon className="h-5 w-5" />
                 </span>
-                <span className="text-sm font-medium text-white/70">{label}</span>
+                <span className="text-sm font-medium text-ink-soft">{label}</span>
               </li>
             ))}
           </ul>
@@ -83,46 +59,35 @@ export function Shop() {
 }
 
 function ProductCard({ product }: { product: Product }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
-  function handleMove(event: React.PointerEvent<HTMLDivElement>) {
-    if (reduced || event.pointerType !== "mouse" || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const px = (event.clientX - rect.left) / rect.width - 0.5;
-    const py = (event.clientY - rect.top) / rect.height - 0.5;
-    setTilt({ x: -py * 9, y: px * 9 });
-  }
-
   return (
-    <motion.div
-      ref={ref}
-      onPointerMove={handleMove}
-      onPointerLeave={() => setTilt({ x: 0, y: 0 })}
-      animate={{ rotateX: tilt.x, rotateY: tilt.y }}
-      transition={{ type: "spring", stiffness: 250, damping: 22 }}
-      style={{ transformStyle: "preserve-3d", perspective: 900 }}
-      className="surface group relative h-full overflow-hidden rounded-3xl"
-    >
-      <div className="relative aspect-square overflow-hidden">
+    <article className="card group flex h-full flex-col overflow-hidden transition-transform duration-500 hover:-translate-y-1">
+      <div className="relative aspect-square overflow-hidden bg-surface-warm">
         <SmartImage
           src={product.image}
           alt={product.name}
           label={product.category}
           accent={product.accent}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.07]"
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/20 to-transparent" />
-        <span className="absolute left-3.5 top-3.5 rounded-full border border-white/15 bg-ink-950/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/75 backdrop-blur">
+        <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-ink backdrop-blur">
           {product.category}
         </span>
       </div>
 
-      <div className="relative p-5">
-        <h3 className="font-display text-base font-bold tracking-tight">{product.name}</h3>
-        <p className="mt-1.5 text-[13px] leading-relaxed text-white/50">{product.blurb}</p>
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex gap-0.5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <StarIcon key={i} className="h-3 w-3 text-amber-brand" />
+          ))}
+        </div>
+        <h3 className="mt-2.5 font-display text-base font-bold tracking-tight">{product.name}</h3>
+        <p className="mt-1.5 flex-1 text-[0.8rem] leading-relaxed text-ink-muted">
+          {product.blurb}
+        </p>
+        <p className="mt-4 border-t border-ink/8 pt-3 text-xs font-medium text-ink-faint">
+          Ask in store for pricing
+        </p>
       </div>
-    </motion.div>
+    </article>
   );
 }

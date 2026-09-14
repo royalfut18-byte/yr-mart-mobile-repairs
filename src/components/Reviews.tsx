@@ -1,9 +1,10 @@
 "use client";
 
 import { business, reviews, type Review } from "@/lib/data";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { Marquee } from "@/components/ui/Marquee";
 import { Counter } from "@/components/ui/Counter";
+import { Pill } from "@/components/ui/Pill";
 import { GoogleIcon, StarIcon } from "@/components/ui/Icons";
 
 // Three lanes running in alternating directions. Speeds are deliberately
@@ -15,146 +16,92 @@ const lanes = [
 ];
 
 export function Reviews() {
-
   return (
-    <section id="reviews" className="relative scroll-mt-24 overflow-hidden py-24 sm:py-32">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+    <section id="reviews" className="scroll-mt-24 overflow-hidden py-16 sm:py-20">
+      <div className="mx-auto max-w-[86rem] px-5 sm:px-8">
+        <Reveal>
+          <div className="flex flex-col items-center gap-6 text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+              What locals say
+            </span>
+            <h2 className="max-w-2xl font-display text-[clamp(1.9rem,4.2vw,3rem)] font-bold leading-[1.06]">
+              {business.reviewCount} reviews. Same story every time.
+            </h2>
 
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
-          <SectionHeading
-            eyebrow="What locals say"
-            title={
-              <>
-                {business.reviewCount} reviews.
-                <br />
-                <span className="text-gradient">Same story every time.</span>
-              </>
-            }
-            lead="Fast, fair and honest — in the customers' own words, straight from the shop's Google listing."
-          />
-
-          <Reveal delay={0.1}>
-            <div className="surface flex items-center gap-5 rounded-3xl p-6">
-              <GoogleIcon className="h-9 w-9 shrink-0" />
-              <div>
+            <div className="card inline-flex items-center gap-4 px-6 py-4">
+              <GoogleIcon className="h-8 w-8 shrink-0" />
+              <div className="text-left">
                 <div className="flex items-center gap-2">
-                  <span className="font-display text-3xl font-extrabold leading-none">
+                  <span className="font-display text-2xl font-extrabold leading-none">
                     <Counter value={business.rating} decimals={1} />
                   </span>
                   <span className="flex gap-0.5">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <StarIcon
                         key={i}
-                        className={`h-3.5 w-3.5 ${i < 4 ? "text-amber-brand" : "text-amber-brand/45"}`}
+                        className={`h-3.5 w-3.5 ${i < 4 ? "text-amber-brand" : "text-amber-brand/40"}`}
                       />
                     ))}
                   </span>
                 </div>
-                <p className="mt-1 text-xs text-white/50">
+                <p className="mt-1 text-xs text-ink-muted">
                   <Counter value={business.reviewCount} /> Google reviews
                 </p>
               </div>
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
       </div>
 
-      <div className="edge-fade mt-14 space-y-4">
+      <div className="edge-fade mt-12 space-y-4">
         {lanes.map((lane, i) => (
-          <MarqueeRow
-            key={i}
-            items={lane.items}
-            direction={lane.direction}
-            seconds={lane.seconds}
-          />
+          <Marquee key={i} direction={lane.direction} seconds={lane.seconds}>
+            {lane.items.map((review) => (
+              <ReviewCard key={review.name} review={review} />
+            ))}
+          </Marquee>
         ))}
       </div>
 
-      <div className="mx-auto mt-12 max-w-7xl px-5 text-center sm:px-8">
+      <div className="mt-12 flex justify-center px-5">
         <Reveal>
-          <a
+          <Pill
             href={business.mapsUrl}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white/80 transition-colors hover:border-white/30 hover:text-white"
+            tone="light"
+            external
+            icon={<GoogleIcon className="h-4 w-4" />}
           >
-            <GoogleIcon className="h-4 w-4" />
             Read every review on Google
-          </a>
+          </Pill>
         </Reveal>
       </div>
     </section>
   );
 }
 
-/**
- * One continuously scrolling lane.
- *
- * The set is rendered twice and the track slides by exactly -50%, which lands
- * on the start of the copy and makes the loop seamless. That only works because
- * each copy is its own flex box: with a single flat list the inter-card gaps
- * are shared between the halves, so -50% misses the seam and the row visibly
- * jumps once per cycle.
- */
-function MarqueeRow({
-  items,
-  direction,
-  seconds,
-}: {
-  items: Review[];
-  direction: "left" | "right";
-  seconds: number;
-}) {
-  return (
-    <div className="flex overflow-hidden">
-      <div
-        className={`flex w-max pause-on-hover ${
-          direction === "right" ? "animate-marquee-reverse" : "animate-marquee"
-        }`}
-        style={{ animationDuration: `${seconds}s` }}
-      >
-        <ReviewSet items={items} />
-        {/* Exact duplicate purely to fill the wrap-around; hidden from readers. */}
-        <ReviewSet items={items} duplicate />
-      </div>
-    </div>
-  );
-}
-
-function ReviewSet({ items, duplicate = false }: { items: Review[]; duplicate?: boolean }) {
-  return (
-    <div className="flex shrink-0 gap-4 pr-4" aria-hidden={duplicate || undefined}>
-      {items.map((review, i) => (
-        <ReviewCard key={`${review.name}-${i}`} review={review} />
-      ))}
-    </div>
-  );
-}
-
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <figure className="surface flex w-[82vw] shrink-0 flex-col rounded-3xl p-6 sm:w-[24rem]">
+    <figure className="card flex w-[80vw] shrink-0 flex-col p-6 sm:w-[23rem]">
       <div className="flex items-center justify-between gap-3">
         <div className="flex gap-0.5">
           {Array.from({ length: review.rating }).map((_, i) => (
             <StarIcon key={i} className="h-3.5 w-3.5 text-amber-brand" />
           ))}
         </div>
-        <GoogleIcon className="h-4 w-4 opacity-70" />
+        <GoogleIcon className="h-4 w-4" />
       </div>
 
-      <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-white/70">
+      <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-ink-soft">
         &ldquo;{review.text}&rdquo;
       </blockquote>
 
-      <figcaption className="mt-5 flex items-center gap-3 border-t border-white/8 pt-4">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-signal-500/40 to-amber-brand/25 font-display text-sm font-bold text-white">
+      <figcaption className="mt-5 flex items-center gap-3 border-t border-ink/8 pt-4">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-soft font-display text-sm font-bold text-brand">
           {review.name.charAt(0).toUpperCase()}
         </span>
         <span className="min-w-0">
-          <span className="block truncate text-sm font-semibold text-white">{review.name}</span>
-          <span className="block truncate text-[11px] text-white/40">
+          <span className="block truncate text-sm font-semibold text-ink">{review.name}</span>
+          <span className="block truncate text-[11px] text-ink-faint">
             {review.meta} · {review.when}
           </span>
         </span>

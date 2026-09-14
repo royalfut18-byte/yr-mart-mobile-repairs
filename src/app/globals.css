@@ -1,36 +1,38 @@
 @import "tailwindcss";
 
 @theme {
-  /* Ink — the near-black base the whole site sits on */
-  --color-ink-950: #05070d;
-  --color-ink-900: #080b14;
-  --color-ink-800: #0d1220;
-  --color-ink-700: #131a2c;
-  --color-ink-600: #1c2540;
+  /* Warm paper background the whole site sits on */
+  --color-paper: #f2f1ec;
+  --color-paper-deep: #eae8e2;
+  /* Card surfaces */
+  --color-surface: #ffffff;
+  --color-surface-warm: #faf9f5;
 
-  /* Signal blue — primary accent, pulled from the shop's sign */
-  --color-signal-300: #7db4ff;
-  --color-signal-400: #4f95ff;
-  --color-signal-500: #2e7dff;
-  --color-signal-600: #1c5fd8;
+  /* Near-black navy for headings and the footer */
+  --color-ink: #16171f;
+  --color-ink-soft: #3a3c47;
+  --color-ink-muted: #6b6d78;
+  --color-ink-faint: #9a9ca5;
 
-  /* Amber — the yellow half of the sign, used for emphasis */
+  /* Primary blue, sampled from the reference */
+  --color-brand: #2b60e2;
+  --color-brand-dark: #1e4bc0;
+  --color-brand-soft: #e8eefc;
+
+  /* Kept from the shop's signage for small accents */
   --color-amber-brand: #ffb020;
-  /* Ember — the red half, used sparingly for urgency */
   --color-ember: #e8362b;
 
   --font-display: var(--font-outfit), system-ui, sans-serif;
   --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
 
-  --radius-4xl: 2rem;
+  --radius-4xl: 1.75rem;
+  --radius-5xl: 2.25rem;
 
   --animate-marquee: marquee 60s linear infinite;
   --animate-marquee-reverse: marquee-reverse 60s linear infinite;
   --animate-float: float 7s ease-in-out infinite;
-  --animate-drift: drift 22s ease-in-out infinite;
   --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
-  --animate-shimmer: shimmer 2.6s linear infinite;
-  --animate-scan: scan 3.4s ease-in-out infinite;
 }
 
 @keyframes marquee {
@@ -42,36 +44,17 @@
   to { transform: translate3d(0, 0, 0); }
 }
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-14px) rotate(-1.2deg); }
-}
-/* Translate only — scaling a heavily blurred layer forces the browser to
-   re-rasterise it every frame, which is what makes "aurora" backgrounds jank. */
-@keyframes drift {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  33% { transform: translate3d(7%, -9%, 0); }
-  66% { transform: translate3d(-8%, 6%, 0); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
 @keyframes pulse-ring {
-  0% { transform: scale(0.9); opacity: 0.7; }
-  70% { transform: scale(2.1); opacity: 0; }
-  100% { transform: scale(2.1); opacity: 0; }
-}
-@keyframes shimmer {
-  from { background-position: -200% 0; }
-  to { background-position: 200% 0; }
-}
-@keyframes scan {
-  0%, 100% { transform: translateY(-120%); opacity: 0; }
-  12% { opacity: 1; }
-  88% { opacity: 1; }
-  50% { transform: translateY(520%); }
+  0% { transform: scale(0.9); opacity: 0.65; }
+  70%, 100% { transform: scale(2.1); opacity: 0; }
 }
 
 @layer base {
   * {
-    /* Tailwind v4 no longer assumes a border colour; keep v3's sane default. */
-    border-color: color-mix(in oklab, var(--color-ink-600) 60%, transparent);
+    border-color: color-mix(in oklab, var(--color-ink) 10%, transparent);
   }
 
   html {
@@ -81,8 +64,8 @@
   }
 
   body {
-    background-color: var(--color-ink-950);
-    color: #e8ecf6;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -91,125 +74,94 @@
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em;
     text-wrap: balance;
+    color: var(--color-ink);
   }
 
-  p {
-    text-wrap: pretty;
-  }
+  p { text-wrap: pretty; }
 
   ::selection {
-    background: var(--color-signal-500);
+    background: var(--color-brand);
     color: #fff;
   }
 
-  /* Focus ring that is visible on every surface we use */
   :focus-visible {
-    outline: 2px solid var(--color-signal-400);
+    outline: 2px solid var(--color-brand);
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 6px;
   }
 
-  /* Slim scrollbar, desktop only */
   @media (pointer: fine) {
-    ::-webkit-scrollbar { width: 10px; height: 10px; }
-    ::-webkit-scrollbar-track { background: var(--color-ink-950); }
+    ::-webkit-scrollbar { width: 11px; height: 11px; }
+    ::-webkit-scrollbar-track { background: var(--color-paper-deep); }
     ::-webkit-scrollbar-thumb {
-      background: var(--color-ink-600);
+      background: #c9c7bf;
       border-radius: 99px;
-      border: 2px solid var(--color-ink-950);
+      border: 3px solid var(--color-paper-deep);
     }
-    ::-webkit-scrollbar-thumb:hover { background: var(--color-signal-600); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-brand); }
   }
 }
 
 @layer components {
-  /* Frosted card surface used across sections */
-  .surface {
-    background: linear-gradient(
-      160deg,
-      color-mix(in oklab, var(--color-ink-800) 92%, white 8%),
-      var(--color-ink-900)
-    );
-    border: 1px solid color-mix(in oklab, white 8%, transparent);
+  /* The template's signature surface: white, generously rounded, barely there
+     shadow. Everything sits on one of these. */
+  .card {
+    background: var(--color-surface);
+    border-radius: var(--radius-4xl);
     box-shadow:
-      0 1px 0 0 color-mix(in oklab, white 6%, transparent) inset,
-      0 24px 60px -28px rgb(0 0 0 / 0.9);
+      0 1px 2px rgb(22 23 31 / 0.04),
+      0 8px 24px -12px rgb(22 23 31 / 0.10);
   }
 
-  /* Gradient text used on section eyebrows and key phrases */
-  .text-gradient {
-    background: linear-gradient(
-      100deg,
-      var(--color-signal-300),
-      #b9d4ff 40%,
-      var(--color-amber-brand)
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  .card-warm {
+    background: var(--color-surface-warm);
+    border-radius: var(--radius-4xl);
+    box-shadow:
+      0 1px 2px rgb(22 23 31 / 0.04),
+      0 8px 24px -12px rgb(22 23 31 / 0.10);
   }
 
-  /* Thin hairline rule that fades at both ends */
-  .hairline {
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      color-mix(in oklab, white 14%, transparent),
-      transparent
-    );
+  /* Pill button with the circular arrow badge on its right */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.4rem 0.4rem 0.4rem 1.5rem;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s;
   }
+  .pill:hover { transform: translateY(-2px); }
+  .pill:active { transform: translateY(0) scale(0.98); }
 
-  /* Masks the marquee so cards fade out at the edges instead of clipping */
+  .pill-badge {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .pill:hover .pill-badge { transform: rotate(45deg); }
+
   .edge-fade {
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  }
-
-  .grid-lines {
-    background-image:
-      linear-gradient(color-mix(in oklab, white 4%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in oklab, white 4%, transparent) 1px, transparent 1px);
-    background-size: 64px 64px;
-  }
-
-  /* Film grain, keeps the large flat gradients from banding */
-  .noise::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.4;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
   }
 }
 
 @layer utilities {
   .pause-on-hover:hover { animation-play-state: paused; }
 
-  /* Big soft background blobs. Painting a 64px blur over a viewport-sized layer
-     is the single most expensive thing on the page, so the blur radius drops and
-     the drift stops entirely on phones. */
-  .blob {
-    filter: blur(56px);
-    will-change: transform;
-    transform: translateZ(0);
-  }
-
-  @media (max-width: 767px) {
-    .blob {
-      filter: blur(40px);
-      animation: none !important;
-    }
-  }
-
   .no-scrollbar { scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
 
-  /* Safe-area padding so the mobile call bar clears the iOS home indicator */
   .pb-safe { padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
 }
 
@@ -223,34 +175,25 @@ html[data-motion="off"] [data-enter] {
 }
 
 /* Honour the OS "reduce motion" setting. Ambient decoration stops; the review
-   lanes slow down instead of stopping (see below). Motion is configured with
+   lanes slow down instead of stopping. Motion is configured with
    reducedMotion="user" in Stage, so entrances drop their movement and become
    plain cross-fades rather than disappearing. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
   .animate-float,
-  .animate-drift,
-  .animate-pulse-ring,
-  .animate-shimmer,
-  .animate-scan {
+  .animate-pulse-ring {
     animation: none !important;
   }
 
-  /* The review lanes are a deliberate exception: the shop asked for them to
-     keep scrolling, so they run everywhere rather than freezing. They are
-     slowed well down here, and hovering still pauses them. */
+  /* Deliberate exception: the shop asked for the scrolling lanes, so they keep
+     running for everyone, just slowed well down. Hover still pauses them. */
   .animate-marquee,
   .animate-marquee-reverse {
     animation-duration: 160s !important;
   }
 
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     transition-duration: 0.001ms !important;
   }
-
-  /* The scan sweep sits at the top of the phone when unanimated; hide it. */
-  .animate-scan { opacity: 0; }
 }

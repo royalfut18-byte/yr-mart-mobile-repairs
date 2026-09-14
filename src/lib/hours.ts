@@ -13,13 +13,14 @@ export type OpenState = {
   detail: string;
 };
 
-/** Read the wall-clock day and minute-of-day in Sydney, wherever the visitor is. */
+/** Read the wall-clock day and time-of-day in Sydney, wherever the visitor is. */
 function sydneyNow(date: Date) {
   const parts = new Intl.DateTimeFormat("en-AU", {
     timeZone: TZ,
     weekday: "short",
     hour: "2-digit",
     minute: "2-digit",
+    second: "2-digit",
     hour12: false,
   }).formatToParts(date);
 
@@ -31,8 +32,57 @@ function sydneyNow(date: Date) {
   // Intl renders midnight as "24" in some runtimes; normalise it back to 0.
   const hour = Number(get("hour")) % 24;
   const minute = Number(get("minute"));
+  const second = Number(get("second"));
 
-  return { dayIndex, minutes: hour * 60 + minute };
+  return {
+    dayIndex,
+    minutes: hour * 60 + minute,
+    seconds: hour * 3600 + minute * 60 + second,
+  };
+}
+
+export type Countdown = {
+  isOpen: boolean;
+  /** "Closing in" or "Opening in". */
+  label: string;
+  hours: number;
+  minutes: number;
+  seconds: number;
+};
+
+/**
+ * Seconds until the shop next opens or closes, for the live counter. Rolls
+ * forward across midnight so an evening visitor sees the wait until tomorrow.
+ */
+export function getCountdown(date: Date = new Date()): Countdown {
+  const { dayIndex, seconds: now } = sydneyNow(date);
+  const today = hours[dayIndex];
+  const openAt = today.open * 3600;
+  const closeAt = today.close * 3600;
+
+  let target: number;
+  let isOpen: boolean;
+
+  if (now >= openAt && now < closeAt) {
+    isOpen = true;
+    target = closeAt - now;
+  } else if (now < openAt) {
+    isOpen = false;
+    target = openAt - now;
+  } else {
+    isOpen = false;
+    const tomorrow = hours[(dayIndex + 1) % 7];
+    // Remainder of today plus tomorrow's opening hour.
+    target = 24 * 3600 - now + tomorrow.open * 3600;
+  }
+
+  return {
+    isOpen,
+    label: isOpen ? "Closing in" : "Opening in",
+    hours: Math.floor(target / 3600),
+    minutes: Math.floor((target % 3600) / 60),
+    seconds: target % 60,
+  };
 }
 
 export function formatHour(hour: number) {
