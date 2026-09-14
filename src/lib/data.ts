@@ -25,7 +25,7 @@ export const business = {
    * pointing it at a domain that does not resolve costs the shop search
    * ranking rather than helping it.
    */
-  siteUrl: "https://yr-mart-mobile-repairs.vercel.app",
+  siteUrl: "https://yrmartmobilerepairs.vercel.app",
 } as const;
 
 /** 0 = Sunday ... 6 = Saturday. Times are local Sydney time, 24h. */
