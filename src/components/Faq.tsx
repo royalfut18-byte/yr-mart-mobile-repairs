@@ -15,7 +15,7 @@ export function Faq() {
     <section id="faq" className="scroll-mt-24 py-16 sm:py-20">
       <div className="mx-auto max-w-[86rem] px-5 sm:px-8">
         <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-          <Reveal>
+          <Reveal direction="right">
             <div className="card flex h-full flex-col justify-between gap-8 p-8 sm:p-10 lg:sticky lg:top-28">
               <div>
                 <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">

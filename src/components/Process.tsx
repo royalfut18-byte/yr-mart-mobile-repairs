@@ -7,7 +7,7 @@ const steps = [
     n: "01",
     title: "Walk in",
     time: "Any time we're open",
-    body: "No booking, no online form, no waiting for a slot. Come down to Military Road and put the device on the counter — Yusuf looks at it right then.",
+    body: "No booking, no online form, no waiting for a slot. Come down to Military Road and put the device on the counter. Yusuf looks at it right then.",
   },
   {
     n: "02",

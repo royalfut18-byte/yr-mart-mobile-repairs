@@ -17,7 +17,7 @@ export function Shop() {
   return (
     <section id="shop" className="scroll-mt-24 py-16 sm:py-20">
       <div className="mx-auto max-w-[86rem] px-5 sm:px-8">
-        <Reveal>
+        <Reveal direction="right">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
@@ -64,12 +64,13 @@ function ProductCard({ product }: { product: Product }) {
       <div className="relative aspect-square overflow-hidden bg-surface-warm">
         <SmartImage
           src={product.image}
+          fallbackSrc={product.fallback}
           alt={product.name}
           label={product.category}
           accent={product.accent}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-ink backdrop-blur">
+        <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink backdrop-blur">
           {product.category}
         </span>
       </div>

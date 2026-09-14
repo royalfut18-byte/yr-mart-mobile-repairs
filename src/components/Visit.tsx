@@ -33,7 +33,7 @@ export function Visit() {
         </Reveal>
 
         <div className="mt-10 grid gap-4 lg:grid-cols-[1.3fr_1fr]">
-          <Reveal>
+          <Reveal direction="right">
             <div className="card overflow-hidden">
               <iframe
                 title={`Map showing ${business.name} in Neutral Bay`}
@@ -63,7 +63,7 @@ export function Visit() {
           </Reveal>
 
           <div className="space-y-4">
-            <Reveal delay={0.06}>
+            <Reveal direction="left" delay={0.06}>
               <div className="card p-7 sm:p-8">
                 <div className="flex items-center gap-3">
                   <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand-soft text-brand">
@@ -104,13 +104,13 @@ export function Visit() {
                 </dl>
 
                 <p className="mt-5 rounded-2xl bg-paper-deep px-4 py-3 text-xs leading-relaxed text-ink-muted">
-                  Running late from work? Call ahead — customers regularly mention {business.owner}{" "}
+                  Running late from work? Call ahead. Customers regularly mention {business.owner}{" "}
                   staying open a little longer to get a phone finished.
                 </p>
               </div>
             </Reveal>
 
-            <Reveal delay={0.12}>
+            <Reveal direction="left" delay={0.12}>
               <div className="card p-7 sm:p-8">
                 <h3 className="font-display text-lg font-bold tracking-tight">Get in touch</h3>
                 <div className="mt-5 space-y-3">

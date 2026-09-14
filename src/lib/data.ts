@@ -21,7 +21,7 @@ export const business = {
     "https://maps.google.com/maps?q=Shop%2020%2F166-174%20Military%20Rd%2C%20Neutral%20Bay%20NSW%202089&z=16&output=embed",
   /**
    * Canonical origin. Feeds the canonical tag, sitemap, Open Graph URL and the
-   * structured data. Change this the moment a custom domain goes live —
+   * structured data. Change this the moment a custom domain goes live.
    * pointing it at a domain that does not resolve costs the shop search
    * ranking rather than helping it.
    */
@@ -282,6 +282,8 @@ export type Product = {
   category: string;
   blurb: string;
   image: string;
+  /** Shown if `image` is not in public/images yet. See src/lib/images.ts. */
+  fallback?: string;
   accent: string;
 };
 
@@ -339,7 +341,8 @@ export const products: Product[] = [
     name: "iPad folio, glass & stylus",
     category: "Tablets",
     blurb: "Case, tempered glass and a stylus in one bundle, fitted before you leave.",
-    image: "/images/ipad-bundle.webp",
+    image: "/images/ipad-smart-folio.webp",
+    fallback: "/images/ipad-bundle.webp",
     accent: "from-emerald-400/40 to-sky-700/10",
   },
 ];

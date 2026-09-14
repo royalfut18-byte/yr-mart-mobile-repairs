@@ -32,7 +32,7 @@ export function Stage({ children }: { children: ReactNode }) {
   }, []);
 
   // Entrance animations only ever end in "visible", so a page whose animation
-  // frames never arrive would stay blank — an embedded webview or a suspended
+  // frames never arrive would stay blank; an embedded webview or a suspended
   // tab can do exactly that. Watch for it and flag the document; one CSS rule
   // in globals.css then forces every [data-enter] element to its resting state.
   useEffect(() => {
@@ -52,7 +52,7 @@ export function Stage({ children }: { children: ReactNode }) {
     };
 
     probe();
-    // Frames resume when a backgrounded tab comes forward — re-check then.
+    // Frames resume when a backgrounded tab comes forward, so re-check then.
     document.addEventListener("visibilitychange", probe);
 
     return () => {
@@ -65,7 +65,7 @@ export function Stage({ children }: { children: ReactNode }) {
   return (
     // "user" tells Motion to drop transform animations for visitors who ask for
     // reduced motion while still cross-fading, so the site is gentler but never
-    // dead. Do NOT branch on the media query during render — that desyncs the
+    // dead. Do NOT branch on the media query during render; that desyncs the
     // server markup from the first client render.
     <MotionConfig reducedMotion="user">
       <StageContext.Provider value={ready}>

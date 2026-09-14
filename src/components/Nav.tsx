@@ -57,7 +57,7 @@ export function Nav() {
           >
             <a
               href="#top"
-              className="flex shrink-0 items-center gap-2"
+              className="-my-2 flex shrink-0 items-center gap-2 py-2"
               aria-label={`${business.name} home`}
             >
               <span className="font-display text-xl font-extrabold tracking-[-0.04em] text-ink sm:text-[1.4rem]">

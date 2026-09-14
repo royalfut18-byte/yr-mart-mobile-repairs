@@ -5,8 +5,9 @@ import { useEffect, useRef, useState } from "react";
 
 const WORD = "YR MART".split("");
 
-/** How long the title sequence holds before the curtain lifts. */
-const HOLD_MS = 1700;
+/** How long the bar takes to fill, then how long 100% sits before the curtain. */
+const FILL_MS = 2200;
+const HOLD_FULL_MS = 300;
 const ease = [0.16, 1, 0.3, 1] as const;
 
 /**
@@ -35,15 +36,17 @@ export function Intro({ onDone }: { onDone: () => void }) {
     };
 
     // Timers rather than requestAnimationFrame: rAF is suspended outright in
-    // background tabs, which would freeze the counter at 0.
+    // background tabs, which would freeze the counter at 0. Linear, so the
+    // number climbs at a readable, even pace instead of racing to 90 and
+    // crawling the rest of the way.
     const started = Date.now();
     const ticker = window.setInterval(() => {
-      const t = Math.min(1, (Date.now() - started) / HOLD_MS);
-      setProgress(Math.round((1 - Math.pow(1 - t, 3)) * 100));
+      const t = Math.min(1, (Date.now() - started) / FILL_MS);
+      setProgress(Math.round(t * 100));
       if (t >= 1) window.clearInterval(ticker);
-    }, 40);
+    }, 30);
 
-    const timer = window.setTimeout(finish, HOLD_MS);
+    const timer = window.setTimeout(finish, FILL_MS + HOLD_FULL_MS);
 
     const events: (keyof WindowEventMap)[] = ["pointerdown", "wheel", "keydown", "touchstart"];
     events.forEach((e) => window.addEventListener(e, finish, { once: true, passive: true }));
@@ -135,16 +138,28 @@ export function Intro({ onDone }: { onDone: () => void }) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.28, duration: 0.4 }}
             >
-              <div className="h-[2px] flex-1 overflow-hidden rounded-full bg-ink/10">
-                <motion.div
-                  className="h-full origin-left rounded-full bg-brand"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: HOLD_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
+              {/*
+                Width, not scaleX. scaleX is a transform, and the MotionConfig
+                in Stage drops transform animations for reduced-motion visitors,
+                which made the bar snap straight to full. Driving width from the
+                same `progress` value as the number also keeps the two in step
+                instead of running as two independent timelines.
+              */}
+              <div
+                className="h-[3px] flex-1 overflow-hidden rounded-full bg-ink/10"
+                role="progressbar"
+                aria-valuenow={progress}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Loading"
+              >
+                <div
+                  className="h-full rounded-full bg-brand"
+                  style={{ width: `${progress}%` }}
                 />
               </div>
-              <span className="w-9 text-right font-display text-xs font-semibold tabular-nums text-ink-muted">
-                {progress}
+              <span className="w-10 text-right font-display text-xs font-semibold tabular-nums text-ink-muted">
+                {progress}%
               </span>
             </motion.div>
           </motion.div>

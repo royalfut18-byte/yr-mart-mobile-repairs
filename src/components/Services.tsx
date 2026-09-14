@@ -5,20 +5,23 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Pill } from "@/components/ui/Pill";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { serviceIcons, PhoneIcon } from "@/components/ui/Icons";
+import { photos } from "@/lib/images";
 
 /** The two hero tiles at the top of the section, as in the reference. */
 const features = [
   {
-    src: "/images/store-interior.webp",
-    alt: "Inside YR MART: walls of cases and the repair counter",
+    src: photos.storeInterior.src,
+    fallback: undefined,
+    alt: photos.storeInterior.alt,
     label: "Walk-in repairs",
     meta: "10 services",
   },
   {
-    src: "/images/ipad-bundle.webp",
-    alt: "iPad folio, tempered glass and stylus bundle",
+    src: photos.ipadDevice.src,
+    fallback: photos.ipadDevice.fallback,
+    alt: photos.ipadDevice.alt,
     label: "iPads & tablets",
-    meta: "1–2 days",
+    meta: "1-2 days",
   },
 ];
 
@@ -28,7 +31,7 @@ export function Services() {
       <div className="mx-auto max-w-[86rem] px-5 sm:px-8">
         {/* Intro card + feature tiles */}
         <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-          <Reveal>
+          <Reveal direction="right">
             <div className="card flex h-full flex-col justify-between gap-8 p-8 sm:p-10">
               <div>
                 <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
@@ -40,8 +43,9 @@ export function Services() {
                   Leave with it working.
                 </h2>
                 <p className="mt-4 max-w-md text-[0.95rem] leading-relaxed text-ink-muted">
-                  Ten things the shop does day in, day out — most finished at the counter while
-                  you wait, and all of them quoted before anything is opened up.
+                  Ten things the shop does day in, day out. Most are finished at the
+                  counter while you wait, and all of them are quoted before anything is
+                  opened up.
                 </p>
               </div>
               <Pill
@@ -57,11 +61,12 @@ export function Services() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             {features.map((f, i) => (
-              <Reveal key={f.src} delay={0.06 + i * 0.06}>
+              <Reveal key={f.src} direction="left" delay={0.06 + i * 0.06}>
                 <figure className="card group h-full overflow-hidden">
                   <div className="aspect-[4/3] overflow-hidden sm:aspect-[5/6]">
                     <SmartImage
                       src={f.src}
+                      fallbackSrc={f.fallback}
                       alt={f.alt}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
@@ -81,7 +86,7 @@ export function Services() {
 
         {/* Service cards */}
         <RevealGroup
-          // 2 or 5 across only — a 3- or 4-column grid leaves the tenth card
+          // 2 or 5 across only; a 3- or 4-column grid leaves the tenth card
           // stranded on a row of its own.
           className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5"
           stagger={0.05}

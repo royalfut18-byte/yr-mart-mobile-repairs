@@ -137,7 +137,7 @@ export default function RootLayout({
         {children}
         <script
           type="application/ld+json"
-          // Static, developer-authored object — no user input reaches this string.
+          // Static, developer-authored object; no user input reaches this string.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </body>

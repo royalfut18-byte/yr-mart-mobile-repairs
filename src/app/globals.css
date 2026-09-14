@@ -61,6 +61,11 @@
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
     -webkit-tap-highlight-color: transparent;
+    /* Sections slide in horizontally, so they sit outside the viewport until
+       they animate. `clip` contains that without creating a scroll container,
+       which `hidden` would do; a scroll container here breaks position:sticky
+       for descendants (the FAQ intro card relies on it). */
+    overflow-x: clip;
   }
 
   body {
@@ -69,6 +74,7 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Belt and braces for browsers without overflow:clip. */
     overflow-x: hidden;
   }
 

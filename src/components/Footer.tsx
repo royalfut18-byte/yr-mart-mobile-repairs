@@ -23,7 +23,7 @@ export function Footer() {
         <div className="mx-auto max-w-[86rem] px-6 py-14 sm:px-12 sm:py-20">
           <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr]">
             {/* Closing call to action */}
-            <Reveal>
+            <Reveal direction="right">
               <div>
                 <h2 className="max-w-md font-display text-[clamp(2rem,4.6vw,3.2rem)] font-bold leading-[1.04] text-white">
                   Cracked screen? Don&apos;t wait a week.
@@ -55,7 +55,7 @@ export function Footer() {
             </Reveal>
 
             {/* Link columns */}
-            <Reveal delay={0.08}>
+            <Reveal direction="left" delay={0.08}>
               <div className="grid gap-10 sm:grid-cols-3">
                 <nav aria-label="Repairs">
                   <h3 className="font-display text-base font-bold text-white">Repairs</h3>
@@ -64,7 +64,7 @@ export function Footer() {
                       <li key={service.slug}>
                         <a
                           href="#repairs"
-                          className="-mx-2 block rounded-lg px-2 py-1.5 text-sm text-white/50 transition-colors hover:text-white"
+                          className="-mx-2 block rounded-lg px-2 py-3 text-sm text-white/50 transition-colors hover:text-white sm:py-1.5"
                         >
                           {service.title}
                         </a>
@@ -80,7 +80,7 @@ export function Footer() {
                       <li key={link.href}>
                         <a
                           href={link.href}
-                          className="-mx-2 block rounded-lg px-2 py-1.5 text-sm text-white/50 transition-colors hover:text-white"
+                          className="-mx-2 block rounded-lg px-2 py-3 text-sm text-white/50 transition-colors hover:text-white sm:py-1.5"
                         >
                           {link.label}
                         </a>
@@ -104,7 +104,7 @@ export function Footer() {
           </div>
 
           <div className="mt-14 flex flex-col gap-6 border-t border-white/12 pt-8 sm:flex-row sm:items-center sm:justify-between">
-            <a href="#top" className="flex items-center gap-2" aria-label={`${business.name} home`}>
+            <a href="#top" className="-my-2 flex items-center gap-2 py-2" aria-label={`${business.name} home`}>
               <span className="font-display text-xl font-extrabold tracking-[-0.04em] text-white">
                 YR MART
               </span>
@@ -116,7 +116,7 @@ export function Footer() {
                 href={business.mapsUrl}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="transition-colors hover:text-white"
+                className="-my-1.5 inline-block py-1.5 transition-colors hover:text-white"
               >
                 {business.fullAddress}
               </a>

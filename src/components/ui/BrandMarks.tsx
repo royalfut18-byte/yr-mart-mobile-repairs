@@ -3,7 +3,7 @@
  *
  * Drawn here rather than pulled in as manufacturer logo files: YR MART is an
  * independent repairer, so these are simplified monograms in each brand's own
- * colour — recognisable at a glance in a scrolling lane, without passing
+ * colour, recognisable at a glance in a scrolling lane, without passing
  * themselves off as official artwork.
  */
 

@@ -10,7 +10,7 @@ import { SmartImage } from "@/components/ui/SmartImage";
 /**
  * The reference puts a sale countdown here. A repair shop has something more
  * useful to count down to, so this ticks toward opening or closing time in
- * Sydney — the one thing a walk-in customer actually needs to know.
+ * Sydney, the one thing a walk-in customer actually needs to know.
  */
 export function OpenNow() {
   const [clock, setClock] = useState<Countdown | null>(null);
@@ -57,7 +57,7 @@ export function OpenNow() {
                 </span>
 
                 <h2 className="mt-4 font-display text-[clamp(1.7rem,3.6vw,2.5rem)] font-bold leading-[1.08]">
-                  Walk in today — no booking needed
+                  Walk in today, no booking needed
                 </h2>
                 <p className="mt-3 max-w-lg text-[0.95rem] leading-relaxed text-ink-muted">
                   Open seven days, including Sundays and after most other shops on the strip have

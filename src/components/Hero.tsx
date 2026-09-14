@@ -7,6 +7,7 @@ import { Pill } from "@/components/ui/Pill";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { OpenPill } from "@/components/OpenPill";
 import { PhoneIcon, StarIcon } from "@/components/ui/Icons";
+import { photos } from "@/lib/images";
 
 const HEADLINE_A = ["Cracked", "screen?"];
 const HEADLINE_B = ["Fixed", "while", "you", "wait."];
@@ -20,7 +21,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
 const fan = [
   { src: "/images/case-rugged-armor.webp", alt: "MagSafe rugged armour cases", h: "h-40 sm:h-48 lg:h-56", y: "translate-y-10 lg:translate-y-14" },
   { src: "/images/case-luxury-magsafe.webp", alt: "Luxury MagSafe glitter cases", h: "h-52 sm:h-60 lg:h-72", y: "translate-y-3 lg:translate-y-5" },
-  { src: "/images/storefront.webp", alt: "The YR MART shopfront on Military Road", h: "h-60 sm:h-72 lg:h-[21rem]", y: "translate-y-0" },
+  { src: photos.heroCentre.src, fallback: photos.heroCentre.fallback, alt: photos.heroCentre.alt, h: "h-60 sm:h-72 lg:h-[21rem]", y: "translate-y-0" },
   { src: "/images/ipad-folio.webp", alt: "360 degree rotating iPad folios", h: "h-52 sm:h-60 lg:h-72", y: "translate-y-3 lg:translate-y-5" },
   { src: "/images/case-hanman-wallet.webp", alt: "Hanman leather wallet cases", h: "h-40 sm:h-48 lg:h-56", y: "translate-y-10 lg:translate-y-14" },
 ];
@@ -65,7 +66,7 @@ export function Hero() {
 
         <Fade state={state} delay={0.5}>
           <p className="mx-auto mt-6 max-w-2xl text-[1.05rem] leading-relaxed text-ink-muted">
-            {business.owner} has been fixing phones on Military Road for years — screens,
+            {business.owner} has been fixing phones on Military Road for years: screens,
             batteries, back glass and charging ports, most of them done at the counter in about
             twenty minutes. No appointment, no postage, no waiting a week.
           </p>
@@ -101,17 +102,25 @@ export function Hero() {
               key={item.src}
               data-enter
               className={`${item.y} ${i === 0 || i === 4 ? "hidden sm:block" : ""} min-w-0 flex-1`}
-              initial={{ opacity: 0, y: 60, scale: 0.92 }}
+              initial={{ opacity: 0, y: 110 }}
               animate={state}
               variants={{
-                hidden: { opacity: 0, y: 60, scale: 0.92 },
-                show: { opacity: 1, y: 0, scale: 1 },
+                hidden: { opacity: 0, y: 110 },
+                show: { opacity: 1, y: 0 },
               }}
-              transition={{ delay: 0.5 + Math.abs(2 - i) * 0.09, duration: 0.9, ease }}
+              // Staggered outward from the centre card, so the row deals itself
+              // open like a hand of cards.
+              transition={{
+                delay: 0.5 + Math.abs(2 - i) * 0.1,
+                duration: 1.05,
+                ease,
+                opacity: { delay: 0.5 + Math.abs(2 - i) * 0.1, duration: 0.35, ease: "easeOut" },
+              }}
             >
               <div className={`overflow-hidden rounded-3xl bg-white p-1.5 shadow-[0_8px_30px_-14px_rgba(22,23,31,0.25)] ${item.h}`}>
                 <SmartImage
                   src={item.src}
+                  fallbackSrc={item.fallback}
                   alt={item.alt}
                   priority={i === 2}
                   className="h-full w-full rounded-[1.15rem] object-cover"
@@ -140,10 +149,15 @@ function Fade({
     <motion.div
       data-enter
       className={className}
-      initial={{ opacity: 0, y: 22 }}
+      initial={{ opacity: 0, y: 44 }}
       animate={state}
-      variants={{ hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0 } }}
-      transition={{ delay, duration: 0.7, ease }}
+      variants={{ hidden: { opacity: 0, y: 44 }, show: { opacity: 1, y: 0 } }}
+      transition={{
+        delay,
+        duration: 0.9,
+        ease,
+        opacity: { delay, duration: 0.3, ease: "easeOut" },
+      }}
     >
       {children}
     </motion.div>

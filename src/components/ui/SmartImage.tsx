@@ -3,12 +3,15 @@
 import { useState } from "react";
 
 /**
- * Plain <img> with a designed fallback. Photos live in /public/images and can be
- * swapped at any time; until a file exists the tile still renders as a finished
- * gradient panel rather than a broken-image icon.
+ * Plain <img> that degrades in two steps. Photos live in /public/images and can
+ * be swapped at any time. If `src` 404s it tries `fallbackSrc`, which lets a
+ * page ask for a photo that has not been supplied yet while still showing the
+ * old one. If that fails too, the tile renders as a finished gradient panel
+ * rather than a broken-image icon.
  */
 export function SmartImage({
   src,
+  fallbackSrc,
   alt,
   className,
   accent = "from-brand-soft to-paper-deep",
@@ -16,13 +19,23 @@ export function SmartImage({
   priority = false,
 }: {
   src: string;
+  fallbackSrc?: string;
   alt: string;
   className?: string;
   accent?: string;
   label?: string;
   priority?: boolean;
 }) {
+  const [current, setCurrent] = useState(src);
   const [failed, setFailed] = useState(false);
+
+  function handleError() {
+    if (fallbackSrc && current !== fallbackSrc) {
+      setCurrent(fallbackSrc);
+      return;
+    }
+    setFailed(true);
+  }
 
   if (failed) {
     return (
@@ -33,7 +46,7 @@ export function SmartImage({
       >
         <PhoneGlyph className="relative h-1/3 w-auto text-ink/25" />
         {label ? (
-          <span className="absolute bottom-3 left-0 right-0 px-3 text-center text-[10px] font-medium uppercase tracking-[0.18em] text-ink-faint">
+          <span className="absolute bottom-3 left-0 right-0 px-3 text-center text-[11px] font-medium uppercase tracking-[0.18em] text-ink-faint">
             {label}
           </span>
         ) : null}
@@ -44,13 +57,16 @@ export function SmartImage({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={src}
+      // Keyed so swapping to the fallback remounts the element and actually
+      // re-requests it, instead of React reusing the errored node.
+      key={current}
+      src={current}
       alt={alt}
       className={className}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
       fetchPriority={priority ? "high" : "auto"}
-      onError={() => setFailed(true)}
+      onError={handleError}
     />
   );
 }

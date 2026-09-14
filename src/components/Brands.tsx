@@ -34,7 +34,7 @@ export function Brands() {
           Repaired here every week
         </h2>
         <p className="mx-auto mt-3 max-w-lg px-5 text-center text-sm text-ink-muted">
-          If it is not on the list, bring it in anyway — odds are it has been on the bench before.
+          If it is not on the list, bring it in anyway. Odds are it has been on the bench before.
         </p>
       </Reveal>
 
