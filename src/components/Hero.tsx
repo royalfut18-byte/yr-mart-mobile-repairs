@@ -17,13 +17,21 @@ const ease = [0.16, 1, 0.3, 1] as const;
 /**
  * The fanned row under the headline. Heights and vertical offsets arc down from
  * the centre card, which is what gives the reference its shopfront-window feel.
+ *
+ * `grow` matters as much as height here. The centre card carries a packaging
+ * shot whose subject spans the full width of a square frame, so a tall narrow
+ * card would slice the boxes in half. Giving it twice the basis of its
+ * neighbours keeps its aspect near square at every breakpoint, which is where a
+ * square source crops least. For the same reason the outermost pair only
+ * appears from `lg`: five cards across a phone leaves each one too narrow to
+ * show anything.
  */
 const fan = [
-  { src: "/images/case-rugged-armor.webp", alt: "MagSafe rugged armour cases", h: "h-40 sm:h-48 lg:h-56", y: "translate-y-10 lg:translate-y-14" },
-  { src: "/images/case-luxury-magsafe.webp", alt: "Luxury MagSafe glitter cases", h: "h-52 sm:h-60 lg:h-72", y: "translate-y-3 lg:translate-y-5" },
-  { src: photos.heroCentre.src, fallback: photos.heroCentre.fallback, alt: photos.heroCentre.alt, h: "h-60 sm:h-72 lg:h-[21rem]", y: "translate-y-0" },
-  { src: "/images/ipad-folio.webp", alt: "360 degree rotating iPad folios", h: "h-52 sm:h-60 lg:h-72", y: "translate-y-3 lg:translate-y-5" },
-  { src: "/images/case-hanman-wallet.webp", alt: "Hanman leather wallet cases", h: "h-40 sm:h-48 lg:h-56", y: "translate-y-10 lg:translate-y-14" },
+  { src: "/images/case-rugged-armor.webp", alt: "MagSafe rugged armour cases", h: "h-40 sm:h-48 lg:h-56", y: "translate-y-10 lg:translate-y-14", grow: "flex-1", show: "hidden lg:block" },
+  { src: "/images/case-luxury-magsafe.webp", alt: "Luxury MagSafe glitter cases", h: "h-36 sm:h-56 lg:h-72", y: "translate-y-3 lg:translate-y-5", grow: "flex-1", show: "" },
+  { src: photos.heroCentre.src, alt: photos.heroCentre.alt, h: "h-44 sm:h-72 lg:h-[21rem]", y: "translate-y-0", grow: "flex-[2]", show: "" },
+  { src: "/images/ipad-folio.webp", alt: "360 degree rotating iPad folios", h: "h-36 sm:h-56 lg:h-72", y: "translate-y-3 lg:translate-y-5", grow: "flex-1", show: "" },
+  { src: "/images/case-hanman-wallet.webp", alt: "Hanman leather wallet cases", h: "h-40 sm:h-48 lg:h-56", y: "translate-y-10 lg:translate-y-14", grow: "flex-1", show: "hidden lg:block" },
 ];
 
 export function Hero() {
@@ -101,7 +109,7 @@ export function Hero() {
             <motion.div
               key={item.src}
               data-enter
-              className={`${item.y} ${i === 0 || i === 4 ? "hidden sm:block" : ""} min-w-0 flex-1`}
+              className={`${item.y} ${item.show} ${item.grow} min-w-0`}
               initial={{ opacity: 0, y: 110 }}
               animate={state}
               variants={{
@@ -120,7 +128,6 @@ export function Hero() {
               <div className={`overflow-hidden rounded-3xl bg-white p-1.5 shadow-[0_8px_30px_-14px_rgba(22,23,31,0.25)] ${item.h}`}>
                 <SmartImage
                   src={item.src}
-                  fallbackSrc={item.fallback}
                   alt={item.alt}
                   priority={i === 2}
                   className="h-full w-full rounded-[1.15rem] object-cover"

@@ -11,14 +11,12 @@ import { photos } from "@/lib/images";
 const features = [
   {
     src: photos.storeInterior.src,
-    fallback: undefined,
     alt: photos.storeInterior.alt,
     label: "Walk-in repairs",
     meta: "10 services",
   },
   {
     src: photos.ipadDevice.src,
-    fallback: photos.ipadDevice.fallback,
     alt: photos.ipadDevice.alt,
     label: "iPads & tablets",
     meta: "1-2 days",
@@ -66,7 +64,6 @@ export function Services() {
                   <div className="aspect-[4/3] overflow-hidden sm:aspect-[5/6]">
                     <SmartImage
                       src={f.src}
-                      fallbackSrc={f.fallback}
                       alt={f.alt}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />

@@ -342,7 +342,6 @@ export const products: Product[] = [
     category: "Tablets",
     blurb: "Case, tempered glass and a stylus in one bundle, fitted before you leave.",
     image: "/images/ipad-smart-folio.webp",
-    fallback: "/images/ipad-bundle.webp",
     accent: "from-emerald-400/40 to-sky-700/10",
   },
 ];

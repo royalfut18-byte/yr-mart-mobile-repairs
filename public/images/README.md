@@ -14,21 +14,10 @@ The shop's real photos, exported to WebP at 1200 px max and quality 78 (about
 | `case-gemshell.webp`       | Man Guard Gemshell anti-fall clear cases        | Accessories             |
 | `case-prints.webp`         | Printed designer case range (D1 to D12)         | Accessories             |
 | `ipad-folio.webp`          | 360 degree rotating tablet folios               | Hero fan, accessories   |
-| `ipad-bundle.webp`         | iPad folio with tempered glass and stylus       | Accessories             |
-
-## Wanted: three more photos
-
-Save these three into this folder under exactly these names and the site picks
-them up with no code change. They are wired up already.
-
-| Save as                  | Should show                                           | Appears as                          |
-| ------------------------ | ----------------------------------------------------- | ----------------------------------- |
-| `hero-centre.webp`       | The Man Guard Gemshell anti-fall boxes (two packs)     | The big centre card in the hero fan |
-| `ipad-device.webp`       | The pink iPad, front and back                          | "iPad & tablets" tile in Repairs    |
-| `ipad-smart-folio.webp`  | The sage green Smart Folio on an iPad                  | "iPad folio, glass & stylus" tile   |
-
-`.webp` is preferred but `.jpg` or `.png` work too; if you use a different
-extension, change the matching path in `src/lib/images.ts`.
+| `ipad-bundle.webp`         | iPad folio with tempered glass and stylus       | (spare)                 |
+| `hero-centre.webp`         | Man Guard Gemshell anti-fall cases, boxed       | Hero fan, centre card   |
+| `ipad-device.webp`         | iPad, front and back                            | "iPads & tablets" tile  |
+| `ipad-smart-folio.webp`    | Smart Folio fitted to an iPad                   | Accessories             |
 
 ## Replacing or adding a photo
 
