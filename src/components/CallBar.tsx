@@ -23,6 +23,11 @@ export function CallBar() {
     <AnimatePresence>
       {visible && (
         <motion.div
+          // data-enter matters more here than anywhere else on the page: this is
+          // the primary call button on a phone, and it slides up from off
+          // screen. If animation frames never arrive it would sit below the fold
+          // permanently, so the escape hatch in globals.css pins it in place.
+          data-enter
           className="pb-safe fixed inset-x-0 bottom-0 z-40 px-3 pt-3 lg:hidden"
           initial={{ y: 120, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}

@@ -138,7 +138,7 @@ function ProductCard({ product }: { product: Product }) {
           accent={product.accent}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink backdrop-blur">
+        <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-ink backdrop-blur">
           {product.category}
         </span>
       </div>

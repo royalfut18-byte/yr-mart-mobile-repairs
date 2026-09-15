@@ -14,12 +14,19 @@ const features = [
     alt: photos.storeInterior.alt,
     label: "Walk-in repairs",
     meta: "10 services",
+    // A real photo, so it fills its tile.
+    frame: "aspect-[4/3] sm:aspect-[5/6]",
+    fit: "object-cover",
   },
   {
     src: photos.ipadDevice.src,
     alt: photos.ipadDevice.alt,
     label: "iPads & tablets",
     meta: "1-2 days",
+    // A product shot on white: contained so the device is never cropped, the
+    // same treatment the accessory tiles use.
+    frame: "aspect-[4/3] bg-white p-6 sm:aspect-[5/6]",
+    fit: "object-contain",
   },
 ];
 
@@ -61,11 +68,11 @@ export function Services() {
             {features.map((f, i) => (
               <Reveal key={f.src} direction="left" delay={0.06 + i * 0.06}>
                 <figure className="card group h-full overflow-hidden">
-                  <div className="aspect-[4/3] overflow-hidden sm:aspect-[5/6]">
+                  <div className={`overflow-hidden ${f.frame}`}>
                     <SmartImage
                       src={f.src}
                       alt={f.alt}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className={`h-full w-full ${f.fit} transition-transform duration-700 group-hover:scale-105`}
                     />
                   </div>
                   <figcaption className="flex items-center justify-between gap-3 px-5 py-4">

@@ -20,7 +20,7 @@ export function Hero() {
   const state = ready ? "show" : "hidden";
 
   return (
-    <section id="top" className="relative overflow-hidden pt-28 sm:pt-36">
+    <section id="top" className="relative overflow-hidden pt-24 sm:pt-36">
       <div className="mx-auto max-w-[86rem] px-5 text-center sm:px-8">
         <Fade state={state} delay={0} className="flex justify-center">
           {/* The shop's sign, shown whole. Yusuf asked for it on the front page
@@ -37,7 +37,7 @@ export function Hero() {
           </div>
         </Fade>
 
-        <Fade state={state} delay={0.08} className="mt-7 flex justify-center">
+        <Fade state={state} delay={0.08} className="mt-5 flex justify-center sm:mt-7">
           <div className="inline-flex items-center gap-2 rounded-full bg-white py-1.5 pl-2 pr-4 shadow-[0_1px_2px_rgba(22,23,31,0.05)]">
             <span className="flex items-center gap-0.5 rounded-full bg-brand-soft px-2 py-1">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -51,7 +51,7 @@ export function Hero() {
           </div>
         </Fade>
 
-        <h1 className="mx-auto mt-6 max-w-5xl font-display text-[clamp(2.5rem,7.2vw,5rem)] font-bold leading-[1.02] tracking-[-0.035em]">
+        <h1 className="mx-auto mt-5 max-w-5xl sm:mt-6 font-display text-[clamp(2.5rem,7.2vw,5rem)] font-bold leading-[1.02] tracking-[-0.035em]">
           <span className="block">
             {HEADLINE_A.map((w, i) => (
               <Word key={w} state={state} delay={0.08 + i * 0.08}>
@@ -69,7 +69,7 @@ export function Hero() {
         </h1>
 
         <Fade state={state} delay={0.5}>
-          <p className="mx-auto mt-6 max-w-2xl text-[1.05rem] leading-relaxed text-ink-muted">
+          <p className="mx-auto mt-5 max-w-2xl text-[1.05rem] sm:mt-6 leading-relaxed text-ink-muted">
             {business.owner} has been fixing phones on Military Road for years: screens,
             batteries, back glass and charging ports, most of them done at the counter in about
             twenty minutes. No appointment, no postage, no waiting a week.
@@ -77,7 +77,7 @@ export function Hero() {
         </Fade>
 
         <Fade state={state} delay={0.62}>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:mt-9 sm:flex-row">
             <Pill
               href={business.phoneHref}
               tone="brand"
@@ -92,7 +92,7 @@ export function Hero() {
         </Fade>
 
         <Fade state={state} delay={0.74}>
-          <div className="mt-7 flex justify-center">
+          <div className="mt-6 flex justify-center sm:mt-7">
             <OpenPill compact />
           </div>
         </Fade>

@@ -121,7 +121,7 @@ export function Footer() {
                 href={business.mapsUrl}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="-my-1.5 inline-block py-1.5 transition-colors hover:text-white"
+                className="-my-3.5 inline-block py-3.5 transition-colors hover:text-white"
               >
                 {business.fullAddress}
               </a>

@@ -31,7 +31,7 @@ export const photos = {
   /** "iPad & tablets" tile in the Repairs section. */
   ipadDevice: {
     src: "/images/ipad-device.webp",
-    alt: "iPad, front and back",
+    alt: "iPad mini, front and back",
   },
 
   /** "iPad folio, glass & stylus" product tile. */

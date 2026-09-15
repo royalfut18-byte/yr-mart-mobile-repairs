@@ -20,6 +20,14 @@ export function Nav() {
   const ready = useStageReady();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  /**
+   * Keeps the sheet in the tree just long enough to animate out, then drops it
+   * whatever happened. AnimatePresence holds an exiting child until its
+   * animation finishes, and that animation runs on animation frames; if frames
+   * never arrive the sheet would sit there at opacity 0 still swallowing every
+   * tap, which looks like a page that has simply stopped responding.
+   */
+  const [menuMounted, setMenuMounted] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -29,10 +37,20 @@ export function Nav() {
   }, []);
 
   useEffect(() => {
+    if (menuOpen) {
+      setMenuMounted(true);
+      return;
+    }
+    const id = window.setTimeout(() => setMenuMounted(false), 450);
+    return () => window.clearTimeout(id);
+  }, [menuOpen]);
+
+  useEffect(() => {
     if (!menuOpen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    const onKey = (e: KeyboardEvent) =>
+      e.key === "Escape" && setMenuOpen(false);
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = previous;
@@ -117,17 +135,23 @@ export function Nav() {
                 <span className="flex h-3.5 w-5 flex-col justify-between">
                   <motion.span
                     className="block h-[2px] w-full rounded-full bg-ink"
-                    animate={menuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                    animate={
+                      menuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }
+                    }
                     transition={{ duration: 0.3 }}
                   />
                   <motion.span
                     className="block h-[2px] w-full rounded-full bg-ink"
-                    animate={menuOpen ? { opacity: 0, x: -8 } : { opacity: 1, x: 0 }}
+                    animate={
+                      menuOpen ? { opacity: 0, x: -8 } : { opacity: 1, x: 0 }
+                    }
                     transition={{ duration: 0.2 }}
                   />
                   <motion.span
                     className="block h-[2px] w-full rounded-full bg-ink"
-                    animate={menuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                    animate={
+                      menuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }
+                    }
                     transition={{ duration: 0.3 }}
                   />
                 </span>
@@ -137,72 +161,79 @@ export function Nav() {
         </div>
       </motion.header>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            id="mobile-menu"
-            className="fixed inset-0 z-40 lg:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            <div className="absolute inset-0 bg-paper" onClick={() => setMenuOpen(false)} />
+      {menuMounted && (
+        <AnimatePresence>
+          {menuOpen && (
             <motion.div
-              className="absolute inset-x-0 top-0 flex min-h-full flex-col justify-center px-6 pb-16 pt-24"
-              initial={{ y: -18, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -18, opacity: 0 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              id="mobile-menu"
+              className="fixed inset-0 z-40 lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, pointerEvents: "auto" }}
+              exit={{ opacity: 0, pointerEvents: "none" }}
+              transition={{ duration: 0.25 }}
             >
-              <ul className="space-y-2">
-                {links.map((link, i) => (
-                  <motion.li
-                    key={link.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 * i + 0.06, duration: 0.4 }}
-                  >
-                    <a
-                      href={link.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="card flex items-center justify-between px-5 py-4 font-display text-xl font-bold text-ink"
-                    >
-                      {link.label}
-                      <span className="text-sm font-medium text-brand">0{i + 1}</span>
-                    </a>
-                  </motion.li>
-                ))}
-              </ul>
-
+              <div
+                className="absolute inset-0 bg-paper"
+                onClick={() => setMenuOpen(false)}
+              />
               <motion.div
-                className="mt-8 space-y-3"
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.34, duration: 0.4 }}
+                className="absolute inset-x-0 top-0 flex min-h-full flex-col justify-center px-6 pb-16 pt-24"
+                initial={{ y: -18, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -18, opacity: 0 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               >
-                <OpenPill />
-                <a
-                  href={business.phoneHref}
-                  className="flex items-center justify-center gap-2.5 rounded-full bg-brand px-6 py-4 font-display text-lg font-bold text-white"
+                <ul className="space-y-2">
+                  {links.map((link, i) => (
+                    <motion.li
+                      key={link.href}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.05 * i + 0.06, duration: 0.4 }}
+                    >
+                      <a
+                        href={link.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="card flex items-center justify-between px-5 py-4 font-display text-xl font-bold text-ink"
+                      >
+                        {link.label}
+                        <span className="text-sm font-medium text-brand">
+                          0{i + 1}
+                        </span>
+                      </a>
+                    </motion.li>
+                  ))}
+                </ul>
+
+                <motion.div
+                  className="mt-8 space-y-3"
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.34, duration: 0.4 }}
                 >
-                  <PhoneIcon className="h-5 w-5" />
-                  {business.phoneDisplay}
-                </a>
-                <a
-                  href={business.mapsUrl}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-white px-6 py-4 text-sm font-semibold text-ink"
-                >
-                  <PinIcon className="h-4 w-4" />
-                  Get directions
-                </a>
+                  <OpenPill />
+                  <a
+                    href={business.phoneHref}
+                    className="flex items-center justify-center gap-2.5 rounded-full bg-brand px-6 py-4 font-display text-lg font-bold text-white"
+                  >
+                    <PhoneIcon className="h-5 w-5" />
+                    {business.phoneDisplay}
+                  </a>
+                  <a
+                    href={business.mapsUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-white px-6 py-4 text-sm font-semibold text-ink"
+                  >
+                    <PinIcon className="h-4 w-4" />
+                    Get directions
+                  </a>
+                </motion.div>
               </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      )}
     </>
   );
 }

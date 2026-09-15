@@ -101,7 +101,7 @@ function TimeBox({ value, unit }: { value?: number; unit: string }) {
       <span className="font-display text-2xl font-extrabold tabular-nums text-ink sm:text-[1.75rem]">
         {value === undefined ? "--" : String(value).padStart(2, "0")}
       </span>
-      <span className="mt-0.5 text-[0.65rem] font-medium text-ink-muted">{unit}</span>
+      <span className="mt-0.5 text-[0.72rem] font-medium text-ink-muted">{unit}</span>
     </div>
   );
 }
