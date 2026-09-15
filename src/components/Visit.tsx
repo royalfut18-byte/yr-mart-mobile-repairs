@@ -63,7 +63,7 @@ export function Visit() {
               <div className="flex flex-wrap items-center justify-between gap-4 p-6 sm:p-7">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-                    Shop 20
+                    Shop 18
                   </p>
                   <p className="mt-1.5 font-display text-lg font-bold leading-snug sm:text-xl">
                     166-174 Military Rd

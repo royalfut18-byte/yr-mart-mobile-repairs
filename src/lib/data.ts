@@ -3,12 +3,12 @@ export const business = {
   shortName: "YR MART",
   owner: "Yusuf",
   tagline: "Neutral Bay's phone repair shop",
-  addressLine: "Shop 20/166-174 Military Rd",
+  addressLine: "Shop 18/166-174 Military Rd",
   suburb: "Neutral Bay",
   state: "NSW",
   postcode: "2089",
   country: "Australia",
-  fullAddress: "Shop 20/166-174 Military Rd, Neutral Bay NSW 2089",
+  fullAddress: "Shop 18/166-174 Military Rd, Neutral Bay NSW 2089",
   phoneDisplay: "0410 485 059",
   phoneHref: "tel:+61410485059",
   smsHref: "sms:+61410485059",
@@ -18,7 +18,7 @@ export const business = {
   mapsUrl:
     "https://www.google.com/maps/search/?api=1&query=YR+MART+MOBILE+REPAIRS+166-174+Military+Rd+Neutral+Bay+NSW+2089",
   mapsEmbedUrl:
-    "https://maps.google.com/maps?q=Shop%2020%2F166-174%20Military%20Rd%2C%20Neutral%20Bay%20NSW%202089&z=16&output=embed",
+    "https://maps.google.com/maps?q=Shop%2018%2F166-174%20Military%20Rd%2C%20Neutral%20Bay%20NSW%202089&z=16&output=embed",
   /**
    * Canonical origin. Feeds the canonical tag, sitemap, Open Graph URL and the
    * structured data. Change this the moment a custom domain goes live.
@@ -369,7 +369,7 @@ export const faqs = [
   },
   {
     q: "Where exactly are you?",
-    a: "Shop 20, 166-174 Military Road, Neutral Bay - on the main strip, right next to the Neutral Bay bus stop. Look for the yellow, red and blue YR MART sign.",
+    a: "Shop 18, 166-174 Military Road, Neutral Bay - on the main strip, right next to the Neutral Bay bus stop. Look for the yellow, red and blue YR MART sign.",
   },
   {
     q: "Do you sell cases and accessories too?",

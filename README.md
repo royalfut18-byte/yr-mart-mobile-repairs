@@ -1,7 +1,7 @@
 # YR MART Mobile Repairs
 
 Marketing site for **YR MART Mobile Repairs**, a walk-in phone and tablet repair
-shop at Shop 20, 166-174 Military Rd, Neutral Bay NSW 2089.
+shop at Shop 18, 166-174 Military Rd, Neutral Bay NSW 2089.
 
 Built with Next.js 15 (App Router), Tailwind CSS v4, TypeScript and Motion.
 
