@@ -39,4 +39,38 @@ export const photos = {
     src: "/images/ipad-smart-folio.webp",
     alt: "Smart Folio case fitted to an iPad",
   },
+
+  /**
+   * The damage shot for the front page. Native size is 480x640, so it is shown
+   * as a device-sized object inside a wide panel rather than stretched across
+   * one: upscaling it to full width would fall apart.
+   */
+  crackedIpad: {
+    src: "/images/cracked-ipad.webp",
+    alt: "An iPad with a badly shattered screen",
+  },
 } as const satisfies Record<string, Photo>;
+
+/** Computer and laptop accessories carried in store. */
+export const accessories = [
+  {
+    src: "/images/acc-mac-charger.webp",
+    name: "Mac & laptop chargers",
+    blurb: "USB-C and MagSafe replacements for Mac and Windows laptops.",
+  },
+  {
+    src: "/images/acc-usb-hub.webp",
+    name: "USB hubs & adapters",
+    blurb: "Multi-port hubs, USB-C adapters and the dongle you keep losing.",
+  },
+  {
+    src: "/images/acc-mouse.webp",
+    name: "Mice",
+    blurb: "Wireless and wired, from everyday office to low-latency gaming.",
+  },
+  {
+    src: "/images/acc-keyboard.webp",
+    name: "Keyboards",
+    blurb: "Full size, compact and backlit mechanical boards.",
+  },
+] as const;

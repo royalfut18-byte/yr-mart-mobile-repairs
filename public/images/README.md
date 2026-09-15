@@ -23,13 +23,24 @@ The shop's real photos, exported to WebP at 1200 px max and quality 78 (about
 The logo is always shown whole. The favicon at `src/app/icon.png` is a square
 crop of the leaf emblem, which is the one place the full banner will not fit.
 
-## Still wanted from the shop
+| `cracked-ipad.webp`        | Shattered iPad screen                           | Front page damage band  |
+| `acc-mac-charger.webp`     | Mac / laptop USB-C charger                      | Computer accessories    |
+| `acc-usb-hub.webp`         | Multi-port USB hub                              | Computer accessories    |
+| `acc-mouse.webp`           | Wireless mouse                                  | Computer accessories    |
+| `acc-keyboard.webp`        | Backlit mechanical keyboard                     | Computer accessories    |
+| `acc-headphones.webp`      | Over-ear headphones (225px, too small to use)   | unused                  |
 
-- A photo of **cracked phones and an iPad** for the front page, which Yusuf
-  asked for. Stock imagery would undercut the rest of the site, all of which is
-  his own product and shopfront photography.
-- Photos of the **computer accessories**: Mac chargers, mice, keyboards, USB
-  hubs. Those shelves are listed with icons for now.
+## Worth replacing
+
+The six files above are stock product shots off the web, not the shop's own
+stock. They are fine as placeholders but two things argue for swapping them:
+they are somebody else's copyright, and photos of the actual products on the
+shelf sell better than a generic render. `acc-headphones.webp` is only 225px,
+which is too soft for a tile, so headphones stay as an icon until a real photo
+arrives.
+
+A **cracked phone** shot is still missing. The band currently shows only the
+iPad, and Yusuf asked for phones as well.
 
 ## Replacing or adding a photo
 

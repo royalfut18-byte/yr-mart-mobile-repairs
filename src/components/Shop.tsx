@@ -1,6 +1,7 @@
 "use client";
 
 import { products, business, type Product } from "@/lib/data";
+import { accessories } from "@/lib/images";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Pill } from "@/components/ui/Pill";
@@ -8,38 +9,21 @@ import {
   BoltIcon,
   CableIcon,
   HeadphonesIcon,
-  KeyboardIcon,
-  LaptopIcon,
-  MouseIcon,
   ShieldIcon,
   SparkIcon,
   StarIcon,
-  UsbIcon,
   WalletIcon,
 } from "@/components/ui/Icons";
 
-/**
- * The shelves either side of the case wall. Split into phone and computer
- * because the computer side of the business was invisible on the site, and it
- * is a large part of what the shop actually sells.
- */
+/** The odds and ends that do not warrant a photo tile of their own. */
 const shelves = [
   {
-    title: "Phone & tablet",
+    title: "Also on the shelves",
     items: [
       { icon: BoltIcon, label: "Chargers & power banks" },
       { icon: CableIcon, label: "Charging cables, every fitting" },
       { icon: ShieldIcon, label: "Tempered glass, fitted in store" },
       { icon: WalletIcon, label: "Telstra prepaid SIMs & recharge" },
-    ],
-  },
-  {
-    title: "Computer & laptop",
-    items: [
-      { icon: LaptopIcon, label: "Mac & laptop chargers" },
-      { icon: UsbIcon, label: "USB hubs & adapters" },
-      { icon: MouseIcon, label: "Mice & trackpads" },
-      { icon: KeyboardIcon, label: "Keyboards" },
       { icon: HeadphonesIcon, label: "Headphones & earbuds" },
       { icon: SparkIcon, label: "Car holders & ring lights" },
     ],
@@ -79,7 +63,46 @@ export function Shop() {
           ))}
         </RevealGroup>
 
-        <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <Reveal delay={0.06}>
+          <div className="mt-16 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+                Computer &amp; laptop
+              </span>
+              <h3 className="mt-3 font-display text-[clamp(1.5rem,3vw,2.1rem)] font-bold leading-tight">
+                Not just phones
+              </h3>
+            </div>
+            <p className="max-w-sm text-sm leading-relaxed text-ink-muted">
+              The shelf behind the counter runs chargers, hubs and peripherals for Mac and
+              Windows machines.
+            </p>
+          </div>
+        </Reveal>
+
+        <RevealGroup className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" stagger={0.06}>
+          {accessories.map((item) => (
+            <RevealItem key={item.name}>
+              <article className="card group flex h-full flex-col overflow-hidden transition-transform duration-500 hover:-translate-y-1">
+                <div className="aspect-square overflow-hidden bg-white p-5">
+                  <SmartImage
+                    src={item.src}
+                    alt={item.name}
+                    className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col border-t border-ink/8 p-5">
+                  <h4 className="font-display text-base font-bold tracking-tight">{item.name}</h4>
+                  <p className="mt-1.5 flex-1 text-[0.8rem] leading-relaxed text-ink-muted">
+                    {item.blurb}
+                  </p>
+                </div>
+              </article>
+            </RevealItem>
+          ))}
+        </RevealGroup>
+
+        <div className="mt-4 grid gap-4">
           {shelves.map((shelf, i) => (
             <Reveal key={shelf.title} direction={i === 0 ? "right" : "left"} delay={0.06}>
               <div className="card h-full p-7 sm:p-8">
