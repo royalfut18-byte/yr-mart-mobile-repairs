@@ -18,7 +18,7 @@ const jakarta = Plus_Jakarta_Sans({
 
 const title = "Phone Repairs Neutral Bay | YR MART Mobile Repairs";
 const description =
-  "Walk-in phone and tablet repairs on Military Rd, Neutral Bay. Cracked screens, batteries, back glass and charging ports fixed in about 20 minutes. Phone and computer accessories in store: chargers, cables, USB hubs, mice and keyboards. Open 7 days. Call 0410 485 059.";
+  "Walk-in phone and tablet repairs on Military Rd, Neutral Bay. Cracked screens, batteries, back glass and charging ports fixed in about 20 minutes. We buy and sell phones, including refurbished handsets. Phone and computer accessories in store: chargers, cables, USB hubs, mice and keyboards. Open 7 days. Call 0410 485 059.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(business.siteUrl),
@@ -36,6 +36,9 @@ export const metadata: Metadata = {
     "iPad repair Neutral Bay",
     "phone cases Neutral Bay",
     "YR MART Mobile Repairs",
+    "buy and sell phones Neutral Bay",
+    "refurbished phones Neutral Bay",
+    "sell my phone Neutral Bay",
     "computer accessories Neutral Bay",
     "laptop charger Neutral Bay",
     "USB hub Mosman",
@@ -126,6 +129,8 @@ const jsonLd = {
     "Screen protectors and cases",
     "Telstra prepaid SIM and recharge",
     "Computer and laptop accessories",
+    "Buying and selling phones",
+    "Refurbished phones",
   ].map((name) => ({
     "@type": "Offer",
     itemOffered: { "@type": "Service", name },

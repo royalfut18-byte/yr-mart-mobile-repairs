@@ -372,6 +372,10 @@ export const faqs = [
     a: "Shop 18, 166-174 Military Road, Neutral Bay - on the main strip, right next to the Neutral Bay bus stop. Look for the yellow, red and blue YR MART sign.",
   },
   {
+    q: "Do you buy and sell phones?",
+    a: "Both. There are refurbished iPhones and Android handsets on the shelf, checked and unlocked before they go out. If you are upgrading, bring the old phone in, working or not, and you will get an offer on the spot. You can also put it toward a repair.",
+  },
+  {
     q: "Do you sell cases and accessories too?",
     a: "The whole shop is lined with them. Phone and tablet side: MagSafe cases, wallet folios, iPad covers, tempered glass, chargers, cables, power banks and Telstra prepaid SIMs. Computer side: Mac and laptop chargers, USB hubs and adapters, mice, keyboards, headphones, car holders and ring lights.",
   },
