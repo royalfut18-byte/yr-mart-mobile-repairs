@@ -21,6 +21,9 @@
 
   /* Kept from the shop's signage for small accents */
   --color-amber-brand: #ffb020;
+  /* The yellow off the shopfront sign itself, sampled from the artwork. Used
+     for full panels, where the amber above reads orange rather than yellow. */
+  --color-sign: #ffcc00;
   --color-ember: #e8362b;
 
   --font-display: var(--font-outfit), system-ui, sans-serif;
