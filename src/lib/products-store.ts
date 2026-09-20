@@ -43,7 +43,7 @@ async function newestManifest(): Promise<ManifestBlob | null> {
 }
 
 /**
- * Every uploaded product, newest first. Returns an empty list rather than
+ * Every uploaded product, oldest first. Returns an empty list rather than
  * throwing when Blob is unreachable or unconfigured: the shop section falls
  * back to its built-in products, so a storage outage costs the new items but
  * never the page.
@@ -61,8 +61,10 @@ export async function listProducts(): Promise<UploadedProduct[]> {
     const parsed: unknown = await res.json();
     if (!Array.isArray(parsed)) return [];
 
+    // Oldest first, so a newly added product appends to the bottom of the
+    // grid rather than pushing the existing stock down.
     return (parsed as UploadedProduct[]).sort((a, b) =>
-      b.createdAt.localeCompare(a.createdAt),
+      a.createdAt.localeCompare(b.createdAt),
     );
   } catch {
     return [];
@@ -113,7 +115,7 @@ export async function addProduct(input: {
     createdAt: new Date().toISOString(),
   };
 
-  await writeManifest([product, ...existing]);
+  await writeManifest([...existing, product]);
   return product;
 }
 
