@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
  * dashboard without a code change or redeploy of the source. The defaults are
  * the ones the shop asked for; see the note in README about changing them.
  */
-const USERNAME = process.env.ADMIN_USERNAME ?? "Yusuf";
+const USERNAME = process.env.ADMIN_USERNAME ?? "yusuf";
 const PASSWORD = process.env.ADMIN_PASSWORD ?? "1234";
 
 /**
@@ -30,8 +30,20 @@ function safeEqual(a: string, b: string) {
   return timingSafeEqual(bufA, bufB);
 }
 
+/**
+ * The username is matched case-insensitively and with surrounding whitespace
+ * trimmed; the password is matched exactly.
+ *
+ * That asymmetry is deliberate. Yusuf signs in from a phone in the shop, and a
+ * mobile keyboard autocapitalises the first letter of a text field, so a
+ * strictly lowercase username would be rejected by default on the device he
+ * actually uses. A username is an identifier, not a secret, so nothing is given
+ * away by being lenient with it. The password stays byte-exact.
+ */
 export function checkCredentials(username: string, password: string) {
-  return safeEqual(username, USERNAME) && safeEqual(password, PASSWORD);
+  const given = username.trim().toLowerCase();
+  const expected = USERNAME.trim().toLowerCase();
+  return safeEqual(given, expected) && safeEqual(password, PASSWORD);
 }
 
 function sign(expiry: number) {

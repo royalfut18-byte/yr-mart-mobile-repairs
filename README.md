@@ -142,7 +142,9 @@ Replace them with the exact pin from the Google Business Profile.
 `/admin` lets the shop add and remove the products shown in the shop section.
 It is excluded from search engines via the page's robots metadata.
 
-**Sign in:** username `Yusuf`, password `1234`.
+**Sign in:** username `yusuf`, password `1234`. The username is matched
+case-insensitively and trimmed, so `Yusuf` or a stray space still gets in; the
+password is exact.
 
 Those are the credentials the shop asked for, and they are weak: `/admin` is a
 public URL, so anyone who finds it can guess them, and whatever they upload

@@ -28,6 +28,9 @@ export function LoginForm({ failed }: { failed: boolean }) {
             name="username"
             type="text"
             autoComplete="username"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
             required
             autoFocus
             className="mt-2 w-full rounded-2xl border border-ink/12 bg-white px-4 py-3.5 text-base text-ink outline-none focus:border-brand"
