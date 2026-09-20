@@ -1,7 +1,6 @@
 "use client";
 
-import { products, business, type Product } from "@/lib/data";
-import { accessories } from "@/lib/images";
+import { business } from "@/lib/data";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { Pill } from "@/components/ui/Pill";
@@ -16,6 +15,16 @@ import {
   WalletIcon,
 } from "@/components/ui/Icons";
 
+/** One flat list, whatever the item is. See `shopItems` in lib/shop.ts. */
+export type ShopItem = {
+  id: string;
+  name: string;
+  blurb: string;
+  image: string;
+  /** object-contain for product shots on white, cover for photographs. */
+  contain: boolean;
+};
+
 const tradePoints = [
   "Refurbished iPhones and Android handsets in stock",
   "We buy your old phone, working or not",
@@ -24,21 +33,16 @@ const tradePoints = [
 ];
 
 /** The odds and ends that do not warrant a photo tile of their own. */
-const shelves = [
-  {
-    title: "Also on the shelves",
-    items: [
-      { icon: BoltIcon, label: "Chargers & power banks" },
-      { icon: CableIcon, label: "Charging cables, every fitting" },
-      { icon: ShieldIcon, label: "Tempered glass, fitted in store" },
-      { icon: WalletIcon, label: "Telstra prepaid SIMs & recharge" },
-      { icon: HeadphonesIcon, label: "Headphones & earbuds" },
-      { icon: SparkIcon, label: "Car holders & ring lights" },
-    ],
-  },
+const shelf = [
+  { icon: BoltIcon, label: "Chargers & power banks" },
+  { icon: CableIcon, label: "Charging cables, every fitting" },
+  { icon: ShieldIcon, label: "Tempered glass, fitted in store" },
+  { icon: WalletIcon, label: "Telstra prepaid SIMs & recharge" },
+  { icon: HeadphonesIcon, label: "Headphones & earbuds" },
+  { icon: SparkIcon, label: "Car holders & ring lights" },
 ];
 
-export function Shop() {
+export function Shop({ items }: { items: ShopItem[] }) {
   return (
     <section id="shop" className="scroll-mt-24 py-16 sm:py-20">
       <div className="mx-auto max-w-[86rem] px-5 sm:px-8">
@@ -53,29 +57,24 @@ export function Shop() {
                   In the shop
                 </span>
                 <h2 className="mt-3 max-w-xl font-display text-[clamp(1.9rem,4.2vw,3rem)] font-bold leading-[1.06]">
-                  Walls of cases, glass and gear
+                  Everything on the shelves
                 </h2>
                 <p className="mt-4 max-w-lg text-[0.95rem] leading-relaxed text-ink/75">
-                  Phone and tablet accessories out front, and a full computer
-                  shelf behind it: Mac and laptop chargers, USB hubs, mice,
-                  keyboards and cables for just about anything.
+                  Cases, glass, chargers and cables for phones and tablets, plus Mac and laptop
+                  chargers, hubs, mice and keyboards. Refurbished handsets too. If you cannot see
+                  it, ask, because the shelves turn over quickly.
                 </p>
               </div>
-              <Pill
-                href={business.mapsUrl}
-                tone="light"
-                external
-                className="self-start"
-              >
+              <Pill href={business.mapsUrl} tone="light" external className="self-start">
                 See it in person
               </Pill>
             </div>
           </Reveal>
 
           {/* Buying and selling is a trade line, not an accessory, so it gets its
-            own block rather than a tile in the product grid. */}
+              own block rather than a tile in the product grid. */}
           <Reveal delay={0.06}>
-            <div className="mt-10 grid items-center gap-8 overflow-hidden rounded-[2rem] bg-brand p-8 text-white sm:p-12 md:grid-cols-[1.15fr_1fr] sm:rounded-[2.5rem]">
+            <div className="mt-10 grid items-center gap-8 overflow-hidden rounded-[2rem] bg-brand p-8 text-white sm:rounded-[2.5rem] sm:p-12 md:grid-cols-[1.15fr_1fr]">
               <div>
                 <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
                   Buy &amp; sell
@@ -84,9 +83,9 @@ export function Shop() {
                   We buy and sell all kinds of phones
                 </h3>
                 <p className="mt-4 max-w-md text-[0.95rem] leading-relaxed text-white/75">
-                  Refurbished handsets on the shelf, checked and ready to go.
-                  Upgrading? Bring the old one in and {business.owner} will make
-                  you an offer on the spot, or put it toward a repair.
+                  Refurbished handsets on the shelf, checked and ready to go. Upgrading? Bring the
+                  old one in and {business.owner} will make you an offer on the spot, or put it
+                  toward a repair.
                 </p>
                 <div className="mt-7">
                   <Pill
@@ -106,11 +105,7 @@ export function Shop() {
                     className="flex items-start gap-3 rounded-2xl bg-white/10 px-4 py-3.5"
                   >
                     <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-white/20">
-                      <svg
-                        viewBox="0 0 24 24"
-                        className="h-3 w-3"
-                        aria-hidden="true"
-                      >
+                      <svg viewBox="0 0 24 24" className="h-3 w-3" aria-hidden="true">
                         <path
                           d="m5 12.5 4.5 4.5L19 7.5"
                           fill="none"
@@ -121,121 +116,62 @@ export function Shop() {
                         />
                       </svg>
                     </span>
-                    <span className="text-sm font-medium text-white/90">
-                      {point}
-                    </span>
+                    <span className="text-sm font-medium text-white/90">{point}</span>
                   </li>
                 ))}
               </ul>
             </div>
           </Reveal>
 
+          {/* One grid, everything in it. Newly uploaded stock leads. */}
           <RevealGroup
             className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-            stagger={0.05}
+            stagger={0.04}
           >
-            {products.map((product) => (
-              <RevealItem key={product.name}>
-                <ProductCard product={product} />
+            {items.map((item) => (
+              <RevealItem key={item.id}>
+                <ProductCard item={item} />
               </RevealItem>
             ))}
           </RevealGroup>
 
           <Reveal delay={0.06}>
-            <div className="mt-16 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-ink/80">
-                  Computer &amp; laptop
-                </span>
-                <h3 className="mt-3 font-display text-[clamp(1.5rem,3vw,2.1rem)] font-bold leading-tight">
-                  Not just phones
-                </h3>
-              </div>
-              <p className="max-w-sm text-sm leading-relaxed text-ink/75">
-                The shelf behind the counter runs chargers, hubs and peripherals
-                for Mac and Windows machines.
-              </p>
+            <div className="card mt-4 p-7 sm:p-8">
+              <h3 className="font-display text-lg font-bold tracking-tight">
+                Also on the shelves
+              </h3>
+              <ul className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {shelf.map(({ icon: Icon, label }) => (
+                  <li
+                    key={label}
+                    className="flex items-center gap-3.5 rounded-2xl bg-paper py-3 pl-3 pr-4"
+                  >
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-brand">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="text-sm font-medium text-ink-soft">{label}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </Reveal>
-
-          <RevealGroup
-            className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-            stagger={0.06}
-          >
-            {accessories.map((item) => (
-              <RevealItem key={item.name}>
-                <article className="card group flex h-full flex-col overflow-hidden transition-transform duration-500 hover:-translate-y-1">
-                  <div className="aspect-square overflow-hidden bg-white p-5">
-                    <SmartImage
-                      src={item.src}
-                      alt={item.name}
-                      className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col border-t border-ink/8 p-5">
-                    <h4 className="font-display text-base font-bold tracking-tight">
-                      {item.name}
-                    </h4>
-                    <p className="mt-1.5 flex-1 text-[0.8rem] leading-relaxed text-ink-muted">
-                      {item.blurb}
-                    </p>
-                  </div>
-                </article>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-
-          <div className="mt-4 grid gap-4">
-            {shelves.map((shelf, i) => (
-              <Reveal
-                key={shelf.title}
-                direction={i === 0 ? "right" : "left"}
-                delay={0.06}
-              >
-                <div className="card h-full p-7 sm:p-8">
-                  <h3 className="font-display text-lg font-bold tracking-tight">
-                    {shelf.title}
-                  </h3>
-                  <ul className="mt-5 grid gap-2 sm:grid-cols-2">
-                    {shelf.items.map(({ icon: Icon, label }) => (
-                      <li
-                        key={label}
-                        className="flex items-center gap-3.5 rounded-2xl bg-paper py-3 pl-3 pr-4"
-                      >
-                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-brand">
-                          <Icon className="h-5 w-5" />
-                        </span>
-                        <span className="text-sm font-medium text-ink-soft">
-                          {label}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function ProductCard({ product }: { product: Product }) {
+function ProductCard({ item }: { item: ShopItem }) {
   return (
     <article className="card group flex h-full flex-col overflow-hidden transition-transform duration-500 hover:-translate-y-1">
-      <div className="relative aspect-square overflow-hidden bg-surface-warm">
+      <div className={`aspect-square overflow-hidden ${item.contain ? "bg-white p-5" : "bg-surface-warm"}`}>
         <SmartImage
-          src={product.image}
-          fallbackSrc={product.fallback}
-          alt={product.name}
-          label={product.category}
-          accent={product.accent}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          src={item.image}
+          alt={item.name}
+          className={`h-full w-full transition-transform duration-700 group-hover:scale-105 ${
+            item.contain ? "object-contain" : "object-cover"
+          }`}
         />
-        <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-ink backdrop-blur">
-          {product.category}
-        </span>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
@@ -244,12 +180,14 @@ function ProductCard({ product }: { product: Product }) {
             <StarIcon key={i} className="h-3 w-3 text-amber-brand" />
           ))}
         </div>
-        <h3 className="mt-2.5 font-display text-base font-bold tracking-tight">
-          {product.name}
-        </h3>
-        <p className="mt-1.5 flex-1 text-[0.8rem] leading-relaxed text-ink-muted">
-          {product.blurb}
-        </p>
+        <h3 className="mt-2.5 font-display text-base font-bold tracking-tight">{item.name}</h3>
+        {item.blurb ? (
+          <p className="mt-1.5 flex-1 text-[0.8rem] leading-relaxed text-ink-muted">
+            {item.blurb}
+          </p>
+        ) : (
+          <div className="flex-1" />
+        )}
         <p className="mt-4 border-t border-ink/8 pt-3 text-xs font-medium text-ink-faint">
           Ask in store for pricing
         </p>

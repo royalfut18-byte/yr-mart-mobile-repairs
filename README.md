@@ -136,3 +136,30 @@ canonical URL, sitemap and Open Graph tags point at it.
 
 The geo coordinates in `business.geo` are approximate for the Military Rd strip.
 Replace them with the exact pin from the Google Business Profile.
+
+## Admin portal
+
+`/admin` lets the shop add and remove the products shown in the shop section.
+It is excluded from search engines via the page's robots metadata.
+
+**Sign in:** username `Yusuf`, password `1234`.
+
+Those are the credentials the shop asked for, and they are weak: `/admin` is a
+public URL, so anyone who finds it can guess them, and whatever they upload
+appears on the live site. Change them without touching code by setting these in
+the Vercel project (Settings, Environment Variables) and redeploying:
+
+| Variable         | Purpose                                             |
+| ---------------- | --------------------------------------------------- |
+| `ADMIN_USERNAME` | Overrides `Yusuf`                                    |
+| `ADMIN_PASSWORD` | Overrides `1234`                                     |
+| `ADMIN_SECRET`   | Signs the session cookie; set it to any long random string so sessions survive a password change |
+
+**Storage.** Photos and a small JSON manifest live in Vercel Blob, in the
+`yrmart-products` store linked to this project. `BLOB_READ_WRITE_TOKEN` is
+injected automatically; nothing to configure.
+
+**Compression.** Photos are resized to 1200px on the long edge and re-encoded
+to WebP *in the browser*, before upload. A 4MB camera photo becomes roughly
+100-500KB, so uploads are quick on shop wifi and visitors are never made to
+download megabytes. See `src/lib/compress.ts`.

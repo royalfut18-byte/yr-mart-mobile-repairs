@@ -4,6 +4,7 @@ import { Hero } from "@/components/Hero";
 import { Brands } from "@/components/Brands";
 import { Services } from "@/components/Services";
 import { Shop } from "@/components/Shop";
+import { getShopItems } from "@/lib/shop";
 import { OpenNow } from "@/components/OpenNow";
 import { Band } from "@/components/Band";
 import { Reviews } from "@/components/Reviews";
@@ -13,7 +14,13 @@ import { Visit } from "@/components/Visit";
 import { Footer } from "@/components/Footer";
 import { CallBar } from "@/components/CallBar";
 
-export default function Home() {
+/**
+ * Rebuilt in the background every few minutes, and immediately when Yusuf adds
+ * or removes a product, so the page stays static and fast but never stale.
+ */
+export const revalidate = 300;
+
+export default async function Home() {
   return (
     <Stage>
       <a
@@ -29,7 +36,7 @@ export default function Home() {
         <Hero />
         <Brands />
         <Services />
-        <Shop />
+        <Shop items={await getShopItems()} />
         <OpenNow />
         <Band />
         <Reviews />
